@@ -6,7 +6,7 @@ def main():
 	# create dictionary of asin to name
 	mapper = {}
 	no_asin = 0
-	for line in open("mapper.csv"):
+	for line in open("mapper_asin_to_name_clean.csv"):
 		split = line.strip().split(',', 1)
 		if len(split) == 2:
 			asin = split[0]
@@ -17,7 +17,7 @@ def main():
 			no_asin += 1
 	print(no_asin)
 
-	file = open('amazon_data/ratings_with_name.csv', 'w')
+	file = open('amazon_data/ratings_with_name.csv', 'w', encoding='utf-8')
 	no_asin = 0
 	for line in open("amazon_data/ratings_Books.csv"):
 		split = line.strip().split(',')

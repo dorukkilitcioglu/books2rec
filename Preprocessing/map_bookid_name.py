@@ -2,8 +2,25 @@ import ast
 import csv
 import pandas as pd 
 
+import sys
+
+maxInt = sys.maxsize
+decrement = True
+
+while decrement:
+    # decrease the maxInt value by factor 10 
+    # as long as the OverflowError occurs.
+
+    decrement = False
+    try:
+        csv.field_size_limit(maxInt)
+    except OverflowError:
+        maxInt = int(maxInt/10)
+        decrement = True
+
 def clean(s):
 	s = s.lower().strip()
+	s = s.replace('&', 'and')
 	s = ''.join([i for i in s if (i.isalpha() or i.isspace())])
 	s = ' '.join(s.split())
 	return s
@@ -24,6 +41,7 @@ def main():
 		
 		mapper_original[original_title] = book_id
 		mapper[title] = book_id
+		
 	print("Number of books: %s" % len(books))
 	
 	file = open('ratings_amazon.csv', 'w')
@@ -43,7 +61,7 @@ def main():
 			book_id = None
 			if name in mapper:
 				book_id = mapper[name]
-			elif name in mapper_original:
+			if book_id == None and name in mapper_original:
 				book_id = mapper_original[name]
 			if book_id:
 				row = user_id + ',' + book_id + ',' + str(val) + '\n'
