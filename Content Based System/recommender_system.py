@@ -24,7 +24,8 @@ def get_recommendations(df, indices, title, cosine_sim):
     # Return the top 10 most similar books
     return df['title'].iloc[book_indices]
 
-metadata_directory = '../goodbooks-10k/books_xml/books_xml'
+#TODO - make this path not hardcoded
+metadata_directory = '../../goodbooks-10k/books_xml/books_xml'
 print(metadata_directory)
 
 books = []
