@@ -83,6 +83,7 @@ bad_shelves = {
     'on-hold',
     'favorite'
 }
+
 def dict_from_xml_file(filename):
     root = xml.etree.ElementTree.parse(filename).getroot()
 
