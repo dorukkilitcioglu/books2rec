@@ -81,7 +81,8 @@ bad_shelves = {
     'i-own',
     'ebook',
     'on-hold',
-    'favorite'
+    'favorite',
+    'favorites'
 }
 
 def dict_from_xml_file(filename):
