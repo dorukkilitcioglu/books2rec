@@ -1,6 +1,6 @@
 import xml.etree.ElementTree
-
 import xml.etree.cElementTree as ElementTree
+from util import bad_features
 
 class XmlListConfig(list):
     def __init__(self, aList):
@@ -64,27 +64,6 @@ class XmlDictConfig(dict):
             else:
                 self.update({element.tag: element.text})
 
-bad_shelves = {
-    'to-read',
-    'currently-reading',
-    'books-i-own',
-    'owned',
-    'owned-books',
-    'read',
-    'favourites',
-    'default',
-    'kindle',
-    'my-books',
-    'to-buy',
-    'all-time-favorites',
-    're-read',
-    'i-own',
-    'ebook',
-    'on-hold',
-    'favorite',
-    'favorites'
-}
-
 def dict_from_xml_file(filename):
     root = xml.etree.ElementTree.parse(filename).getroot()
 
@@ -92,7 +71,7 @@ def dict_from_xml_file(filename):
     book = root.find('book')
     shelves = book.find('popular_shelves')
     for child in shelves:
-        if child.attrib['name'] not in bad_shelves:
+        if child.attrib['name'] not in bad_features:
             popular_shelves[child.attrib['name']] = child.attrib['count']
 
     # return book in dict form and also popular shelves

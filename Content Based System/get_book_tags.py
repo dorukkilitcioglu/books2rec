@@ -1,25 +1,5 @@
 import csv
-
-bad_tags = {
-    'to-read',
-    'currently-reading',
-    'books-i-own',
-    'owned',
-    'owned-books',
-    'read',
-    'favourites',
-    'default',
-    'kindle',
-    'my-books',
-    'to-buy',
-    'all-time-favorites',
-    're-read',
-    'i-own',
-    'ebook',
-    'on-hold',
-    'favorite',
-    'favorites'
-}
+from util import bad_features
 
 def get_tags(book_tags, tags):
     tag_defs = {}
@@ -39,6 +19,6 @@ def get_tags(book_tags, tags):
                 books[goodreads_book_id] = {}
             
             tag_name = tag_defs[tag_id]
-            if tag_name not in bad_tags:
+            if tag_name not in bad_features:
                 books[goodreads_book_id][tag_name] = count
     return books
