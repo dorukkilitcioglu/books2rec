@@ -13,6 +13,7 @@ def load_amazon(data_path, min_items = 5):
     # Load in amazon ratings
     ratings_amazon = pd.read_csv(data_path)
     ratings_amazon['book_id'] = ratings_amazon['book_id'].astype(int)
+    ratings_amazon = ratings_amazon.drop_duplicates(subset = ['book_id', 'user_id'])
     # Get a set of users that rated 5 or more items
     user_counts = ratings_amazon['user_id'].value_counts() >= min_items
     to_drop = set()
@@ -37,6 +38,9 @@ def get_joint(item_ratings, item_features, ratings_components = 1000, features_c
     _, _, rating_VT = reduce_matrix(item_ratings, n_components = ratings_components)
     features_U, _, _ = reduce_matrix(item_features, n_components = features_components)
     return np.hstack((rating_VT.T, features_U))
+
+def get_reduced_joint(reduced_item_ratings, reduced_item_features):
+    return np.hstack((reduced_item_ratings, reduced_item_features))
 
 def main():
     # Set this to where you save and load all data
