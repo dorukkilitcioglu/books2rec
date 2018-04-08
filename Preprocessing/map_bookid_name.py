@@ -55,7 +55,7 @@ def main():
 		reader = csv.reader(f)
 		for rating in reader:
 			name = clean(rating[4])
-			user_id = rating[3]
+			user_id = rating[0]
 			val = int(float(rating[2]))
 			asin = rating[1]
 			
