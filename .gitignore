@@ -1,1 +1,4 @@
 data/goodbooks-10k/
+data/amazon/
+.ipynb_checkpoints/
+__pycache__/
