@@ -39,8 +39,9 @@ def main():
 		
 		title = clean(book[10])
 		
-		mapper_original[original_title] = book_id
-		mapper[title] = book_id
+		if book_id != 'book_id':
+			mapper_original[original_title] = book_id
+			mapper[title] = book_id
 		
 	print("Number of books: %s" % len(books))
 	
