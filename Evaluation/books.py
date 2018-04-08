@@ -5,13 +5,13 @@ import numpy as np
 import pandas as pd
 import scipy
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
-from sklearn.decomposition import TruncatedSVD
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Custom libraries - must be in same directory
 import xml_to_dict
 import get_book_tags
 import get_bookid_mapper
+from util import reduce_matrix
 
 def clean_string(s):
     # often times a book will be missing a feature so we have to return if None
@@ -103,24 +103,6 @@ def get_book_authors(df):
     count_matrix_author = pd.get_dummies(df['author'])
     count_matrix_author = scipy.sparse.csr_matrix(count_matrix_author.values)
     return count_matrix_author
-
-def reduce_matrix(X, n_components = 1000, n_iter = 7, random_state = None):
-    """ Uses SVD to reduce a matrix into its components
-    
-    Args:
-        X:              the matrix to reduce
-        n_components:   number of singular values to limit to
-        n_iter:         the number of iterations for SVD
-        random_state:   the random initial state SVD
-
-    Returns:
-        U: the user representations
-        S: the singular values
-        V: the item representations
-    """
-    svd = TruncatedSVD(n_components = n_components, n_iter = n_iter, random_state = random_state)
-    reduced_matrix = svd.fit_transform(X)
-    return reduced_matrix, svd.singular_values_, svd.components_
 
 def main():
     """ Sample program to verify the code.
