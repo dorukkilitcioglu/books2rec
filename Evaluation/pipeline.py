@@ -7,9 +7,11 @@ from util import get_sparse, reduce_matrix
 from joiner import get_ratings, get_reduced_joint
 
 def rmse(y_true, y_pred):
+    """ Returns the root mean squared error """
     return np.sqrt(np.mean(np.square(y_true - y_pred)))
 
 def mae(y_true, y_pred):
+    """ Returns the mean absolute error """
     return np.mean(np.absolute(y_true - y_pred))
 
 def evaluate(X_orig, X_held_out, sim, user_indices, item_indices):
@@ -19,9 +21,6 @@ def evaluate(X_orig, X_held_out, sim, user_indices, item_indices):
         user_arr = np.asarray(X_held_out[u,:].todense())[0]
         norm_const = np.sum((user_arr != 0) * (sim[i,:]))
         pred_rating = np.sum(user_arr * sim[i,:])/norm_const
-        if(norm_const == 0):
-            print(np.sum(user_arr))
-            print(np.sum(np.asarray(X_orig[u,:].todense())[0] != 0))
         predictions.append(pred_rating)
     rmse_ = rmse(held_outs, np.array(predictions))
     mae_ = mae(held_outs, np.array(predictions))
