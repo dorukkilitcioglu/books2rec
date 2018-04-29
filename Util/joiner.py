@@ -31,6 +31,7 @@ def load_amazon(data_path, min_items = 5):
 def combine_ratings(goodreads, amazon):
     # combine goodreads ratings with amazon ratings (the 10k books)
     df = goodreads.append(amazon)
+    # only need to sort by book_id bc we use the transpose of the User-Item matrix in SVD
     df = df.sort_values(by=['book_id'])
     return df
 
@@ -45,6 +46,37 @@ def get_ratings(goodreads_path, amazon_path, min_amazon_items = 5):
         ratings_combined = get_sparse(combine_ratings(goodreads, amazon))
         scipy.sparse.save_npz('../.tmp/ratings_combined', ratings_combined)
         return ratings_combined
+
+def get_ratings_pickle(data_path):
+    try:
+        # Load ratings DF
+        ratings = pd.read_pickle('../.tmp/ratings_pickle')
+        print('ratings_pickle existed as file...')
+        return ratings
+    except:
+        ratings_goodreads = load_goodreads(data_path + 'ratings.csv')
+        ratings_amazon = load_amazon(data_path + 'ratings_amazon.csv')
+        # Map amazon userid's to unique ints
+        seen = {}
+        next_uid = 53424 + 1 # 53424 is last user in goodreads
+        for index, row in ratings_amazon.iterrows():
+            username = row['user_id']
+            if username not in seen:
+                seen[username] = next_uid
+                next_uid += 1
+                
+            ratings_amazon.set_value(index,'user_id',seen[username])
+
+        # Join Goodreads and Amazon
+        ratings = pd.concat([ratings_goodreads, ratings_amazon])
+
+        # prepare to be read in to Reader
+        ratings = ratings.sort_values(by=['user_id','book_id'])
+        ratings = ratings.reset_index(drop=True)
+        ratings = ratings.rename(index=str, columns={"user_id": "userID", "book_id": "itemID", "rating": "rating"})
+
+        ratings.to_pickle('../.tmp/ratings_pickle')
+        return ratings
 
 def get_joint(item_ratings, item_features, ratings_components = 1000, features_components = 1000, weight=False):
     ratings_U, _, _ = reduce_matrix(item_ratings, n_components = ratings_components)

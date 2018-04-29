@@ -34,7 +34,7 @@ def get_recommendations(books, bookid_to_title, title_to_bookid, title, similari
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     # Get the scores of the N most similar books
-    N = 21
+    N = 31
     sim_scores = sim_scores[1:N]
 
     # Get the book indices
@@ -61,7 +61,7 @@ def get_recommendations(books, bookid_to_title, title_to_bookid, title, similari
             current_chunk.append(top_books[i])
         else:
             chunks.append(current_chunk)
-            current_chunk = []
+            current_chunk = [top_books[i]]
 
     chunks.append(current_chunk)
     return chunks
@@ -94,7 +94,7 @@ def get_top_n_recs(result, books, n, q):
             current_chunk.append(top_books[i])
         else:
             chunks.append(current_chunk)
-            current_chunk = []
+            current_chunk = [top_books[i]]
     chunks.append(current_chunk)
 
     return chunks
