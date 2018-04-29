@@ -1,6 +1,7 @@
 import xml.etree.ElementTree
 import xml.etree.cElementTree as ElementTree
-from util import bad_features
+
+from global_vars import bad_features
 
 class XmlListConfig(list):
     def __init__(self, aList):

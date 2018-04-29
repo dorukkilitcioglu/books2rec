@@ -2,9 +2,12 @@ from flask import Flask, request, render_template
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import csv
+import sys
 
-# Custom files
-import recommender
+# Custom libraries
+sys.path.append('../Util')
+from loader import get_book_dataframe, get_book_features
+from recommender import get_recommendations, get_top_n_recs, map_user, map_user_sparse
 
 app = Flask(__name__)
 
@@ -13,8 +16,10 @@ bookid_to_title = {}
 title_to_bookid = {}
 item_matrix = None
 cosine_sim_item_matrix = None
+books = None
 
-def load_books():
+def load_books_mappers():
+    global bookid_to_title, title_to_bookid
     filename = data_path + 'books.csv'
     with open(filename, "r", encoding='utf8') as f:
         reader = csv.reader(f, delimiter=",")
@@ -30,31 +35,52 @@ def load_item_matrix():
     cosine_sim_item_matrix = cosine_similarity(item_matrix)
 
 def get_recommendation(title):
-    global item_matrix, cosine_sim_item_matrix
+    global books, item_matrix, cosine_sim_item_matrix, bookid_to_title, title_to_bookid
 
     similarities= [cosine_sim_item_matrix]
     weights = [1]
-    recs = recommender.get_recommendations(bookid_to_title, title_to_bookid, title, similarities, weights)
+    recs = get_recommendations(books, bookid_to_title, title_to_bookid, title, similarities, weights)
     return recs
 
 @app.route('/')
 def my_form():
-    load_books()
+    global books
+
+    load_books_mappers()
+    books = get_book_dataframe(data_path)
     load_item_matrix()
-    return render_template('form.html')
+    return render_template('book_list.html')
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['POST', 'POST2'])
 def my_form_post():
-    text = request.form['text']
+    global item_matrix, books
+    if 'book_recs' in request.form:
+        print('getting recs')
 
-    rec = get_recommendation(text)
-    print(rec)
+        text = request.form['books']
 
-    rec_string = ''
-    for r in rec:
-        rec_string += r + ', '
+        print('got title')
+        recs = get_recommendation(text)
+        res = render_template('book_list.html', 
+                        toPass=recs)
+        return res
 
-    return rec_string
+    if 'user_recs' in request.form:
+        text = request.form['text']
+
+        q = np.load('../.tmp/user_vector.npy')
+        # Turn 1-5 rating scale into negative - positive scale
+        ratings_mapper = {0:0, 1:-2, 2:-1, 3:1, 4:2, 5:3}
+        for i in range(len(q)):
+            q[i] = ratings_mapper[q[i]]
+
+        top_books = get_top_n_recs(map_user(q, item_matrix), books, 25, q)
+
+        res = render_template('book_list.html', 
+                        toPass=top_books)
+        return res
+    else:
+        return 'ERROR'
 
 if __name__ == '__main__':
     app.run()

@@ -5,3 +5,4 @@ data/amazon/
 .ipynb_checkpoints/
 __pycache__/
 .tmp/
+secret.py

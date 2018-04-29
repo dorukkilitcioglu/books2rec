@@ -2,27 +2,6 @@ import numpy as np
 from sklearn.decomposition import TruncatedSVD
 from scipy.sparse import csr_matrix
 
-bad_features = {
-    'to-read',
-    'currently-reading',
-    'books-i-own',
-    'owned',
-    'owned-books',
-    'read',
-    'favourites',
-    'default',
-    'kindle',
-    'my-books',
-    'to-buy',
-    'all-time-favorites',
-    're-read',
-    'i-own',
-    'ebook',
-    'on-hold',
-    'favorite',
-    'favorites'
-}
-
 def reduce_matrix(X, n_components = 1000, n_iter = 7, random_state = None):
     """ Uses SVD to reduce a matrix into its components
     
@@ -33,9 +12,9 @@ def reduce_matrix(X, n_components = 1000, n_iter = 7, random_state = None):
         random_state:   the random initial state SVD
 
     Returns:
-        U: the user representations
+        U: the row representations
         S: the singular values
-        V: the item representations
+        V: the column representations
     """
     svd = TruncatedSVD(n_components = n_components, n_iter = n_iter, random_state = random_state)
     reduced_matrix = svd.fit_transform(X)

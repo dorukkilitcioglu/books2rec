@@ -1,0 +1,160 @@
+<html>
+<head>
+    <title>Book Recommendations</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css" media="screen">
+        .page {
+            width: 100%;
+            padding: 25px;
+        }
+        .jumbo_header {
+            padding-left: 25px;
+        }
+        .input { 
+            padding-left: 25px;
+
+            display: flex;
+            flex-direction: row;
+        }
+        .input_item {
+            margin-left: 5px;
+            margin-right: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        .row {
+
+            display: flex;
+            flex-direction: row;
+        }
+        .col {
+            display: flex;
+            flex-direction: column;
+        }
+        .book_container {
+            height: 33vh;
+            margin: 5px;
+            border-style: solid;
+            border-color: teal;
+            border-width: 2px;
+            border-radius: 5px;
+
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            align-items: center;
+        }
+        .book_cover{
+            margin-top: 5px;
+            height: 55%;
+        }
+        .book_rank {
+            height: 10%;
+            width: 100%;
+            padding-left: 10px;
+            background-color: teal;
+
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            align-items: center;
+
+            font-size: 1.5vh;
+        }
+        .book_info {
+            height: 20%;
+            padding: 10px;
+            text-align: center;
+
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            align-items: center;
+
+            font-size: 1.5vh;
+        }
+        h4 {
+            font-size: 2vh;
+            margin: 0;
+        }
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="jumbo_header">
+            <h1>Book Recommendations</h1>     
+        </div>
+    </div>
+    <div class="page">
+        <div class="input">
+            <div class="input_item">
+                <div class="row">
+                    <h4>Enter Goodreads Username or User ID</h4>
+                </div>
+                <div class="row">
+                    <form method="POST">
+                        <input name="text">
+                        <input type="submit" name='user_recs' value="Get Recommendations">
+                    </form>
+                </div>
+            </div>
+            <div class="input_item">
+                <h1>OR</h1>
+            </div>
+            <div class="input_item">
+                <div class="row">
+                    <h4>Select a Book</h4>
+                </div>
+                <div class="row">
+                    <form method="POST">
+                        <select id="book_drop" name="books">
+                            <option value="The Hobbit">The Hobbit</option>
+                            <option value="The Hunger Games (The Hunger Games, #1)">The Hunger Games)</option>
+                            <option value="The Great Gatsby">The Great Gatsby</option>
+                            <option value="The Catcher in the Rye">The Catcher in the Rye</option>
+                            <option value="1984">1984</option>
+                            <option value="Of Mice and Men">Of Mice and Men</option>
+                            <option value="There Was an Old Lady Who Swallowed a Fly">There Was an Old Lady Who Swallowed a Fly</option>
+                            <option value="The Innovators: How a Group of  Hackers, Geniuses and Geeks Created the Digital Revolution">The Innovators</option>
+                            <option value="The Decline and Fall of the Roman Empire">The Decline and Fall of the Roman Empire</option>
+                            <option value="Dune (Dune Chronicles #1)">Dune</option>
+                        </select>
+                        <input type="submit" name='book_recs' value="Get Recommendations">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <!-- you can iterate on a list to add many items -->
+            {% for chunk in toPass %}
+            <div class="row">
+                {% for book in chunk %}
+                <div class="col-sm-4">
+                    <div class="book_container">
+                        <div class="book_rank">
+                            <p style="color: white">Rank: {{book['rank']}}</p>
+                        </div>
+                        <div class="book_cover" >
+                            <a href={{book['url']}}><img style="height: 100%;" border="0" src={{book['image_url']}} /></a>
+                        </div>
+                        <div class="book_info">
+                            <h4>{{book['title']}}</h4>
+                            <p>By: {{book['author']}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,11 +1,16 @@
+import sys
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import scipy
 from math import ceil
 from sklearn.metrics.pairwise import cosine_similarity
+
+# Custom libraries
+sys.path.append('../Util')
+from loader import get_book_dataframe, get_book_features
 from cross_validation import ColumnwiseKFold
-from books import get_book_dataframe, get_book_features
-from util import get_sparse, reduce_matrix
+from reduction import get_sparse, reduce_matrix
 from joiner import get_ratings, get_reduced_joint
 from pipeline import rmse, mae, evaluate, print_evaluation
 
@@ -68,12 +73,13 @@ class BookEncoder:
 def main(ratings_components = 100, features_components = 100, print_scores = False):
     np.random.seed(42)
     tf.set_random_seed(1984)
-    data_path = '../data/goodbooks-10k/'
+    # data_path = '../data/goodbooks-10k/'
+    data_path = '../../goodbooks-10k/'
     book_features = get_book_features(get_book_dataframe(data_path))
     reduced_item_features, _, _ = reduce_matrix(book_features, n_components = features_components)
 
-    goodreads_path = '../data/goodbooks-10k/ratings.csv'
-    amazon_path = '../data/amazon/ratings_amazon.csv'
+    goodreads_path = data_path + 'ratings.csv'
+    amazon_path = data_path + 'ratings_amazon.csv'
     spr = get_ratings(goodreads_path, amazon_path, min_amazon_items = 6)
 
     n_folds = 5
