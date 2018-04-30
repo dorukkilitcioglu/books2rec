@@ -1,0 +1,75 @@
+[{'n_epochs': 20, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 20, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 20, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 50, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 50, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 50, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 100, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 100, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}, {'n_epochs': 100, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}]
+Running SVD with params: {'n_epochs': 20, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8481  0.8487  0.8498  0.8474  0.8480  0.8484  0.0008  
+MAE (testset)     0.6556  0.6561  0.6570  0.6551  0.6556  0.6559  0.0006  
+Fit time          120.10  121.20  121.76  121.31  120.23  120.92  0.65    
+Test time         18.32   18.28   18.04   18.07   17.94   18.13   0.15    
+Running SVD with params: {'n_epochs': 20, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8469  0.8453  0.8460  0.8465  0.8468  0.8463  0.0006  
+MAE (testset)     0.6535  0.6524  0.6531  0.6535  0.6531  0.6531  0.0004  
+Fit time          147.13  146.94  146.86  147.60  147.21  147.15  0.26    
+Test time         19.22   18.95   19.04   19.03   18.94   19.03   0.10    
+Running SVD with params: {'n_epochs': 20, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8456  0.8442  0.8447  0.8445  0.8453  0.8448  0.0005  
+MAE (testset)     0.6509  0.6498  0.6500  0.6500  0.6508  0.6503  0.0005  
+Fit time          223.62  223.21  222.76  222.01  220.84  222.49  0.98    
+Test time         19.56   19.45   19.48   19.11   19.00   19.32   0.22    
+Running SVD with params: {'n_epochs': 50, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8455  0.8436  0.8442  0.8435  0.8437  0.8441  0.0007  
+MAE (testset)     0.6454  0.6440  0.6439  0.6434  0.6438  0.6441  0.0007  
+Fit time          297.40  297.12  298.01  298.41  297.92  297.77  0.46    
+Test time         18.86   18.64   18.66   18.58   18.51   18.65   0.12    
+Running SVD with params: {'n_epochs': 50, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8541  0.8545  0.8529  0.8529  0.8540  0.8537  0.0007  
+MAE (testset)     0.6485  0.6485  0.6477  0.6476  0.6480  0.6480  0.0004  
+Fit time          366.19  364.71  382.50  371.63  365.12  370.03  6.71    
+Test time         19.16   19.07   19.16   19.23   18.82   19.09   0.14    
+Running SVD with params: {'n_epochs': 50, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8660  0.8668  0.8681  0.8684  0.8664  0.8671  0.0009  
+MAE (testset)     0.6553  0.6560  0.6569  0.6569  0.6554  0.6561  0.0007  
+Fit time          552.39  555.96  555.82  550.63  552.61  553.48  2.08    
+Test time         19.44   19.25   19.22   19.25   19.04   19.24   0.13    
+Running SVD with params: {'n_epochs': 100, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8502  0.8522  0.8512  0.8514  0.8511  0.8512  0.0007  
+MAE (testset)     0.6448  0.6461  0.6457  0.6457  0.6449  0.6454  0.0005  
+Fit time          592.98  594.12  592.70  593.83  592.83  593.29  0.57    
+Test time         18.86   18.81   18.81   18.81   18.56   18.77   0.10    
+Running SVD with params: {'n_epochs': 100, 'n_factors': 20, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8709  0.8704  0.8725  0.8704  0.8711  0.8711  0.0008  
+MAE (testset)     0.6562  0.6558  0.6578  0.6562  0.6559  0.6564  0.0007  
+Fit time          729.04  730.19  728.69  731.21  735.00  730.83  2.27    
+Test time         19.12   19.14   19.12   18.93   18.91   19.04   0.10    
+Running SVD with params: {'n_epochs': 100, 'n_factors': 50, 'lr_all': 0.005, 'reg_all': 0.02}
+Evaluating RMSE, MAE of algorithm SVD on 5 split(s).
+
+                  Fold 1  Fold 2  Fold 3  Fold 4  Fold 5  Mean    Std     
+RMSE (testset)    0.8955  0.8960  0.8947  0.8959  0.8963  0.8957  0.0006  
+MAE (testset)     0.6730  0.6735  0.6729  0.6731  0.6735  0.6732  0.0003  
+Fit time          1105.88 1100.24 1112.53 1115.05 1101.02 1106.94 5.97    
+Test time         19.24   19.28   19.09   19.08   19.06   19.15   0.09    
+Best RMSE: 0.844118472532902
+Best params: {'n_epochs': 50, 'n_factors': 10, 'lr_all': 0.005, 'reg_all': 0.02}
