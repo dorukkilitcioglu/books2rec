@@ -19,9 +19,19 @@ title_to_bookid = {}
 item_matrix = None
 svd = None
 cosine_sim_item_matrix = None
+cosine_sim_feature_matrix = None
 cosine_sim_svd = None
 books = None
+titles = []
 error_message = "I can't seem to find anything with what you gave me, I'm sorry"
+
+def load_books():
+    global books, titles
+
+    books = get_book_dataframe(data_path)
+    for index, row in books.iterrows():
+        titles.append(row['title'])
+    titles.sort()
 
 def load_books_mappers():
     global bookid_to_title, title_to_bookid
@@ -33,11 +43,14 @@ def load_books_mappers():
             title_to_bookid[line[10]] = line[0]
 
 def load_item_matrix():
-    global item_matrix, cosine_sim_item_matrix
+    global item_matrix, cosine_sim_item_matrix, cosine_sim_feature_matrix
 
     filename = '../.tmp/item_matrix.npy'
     item_matrix = np.load(filename)
     cosine_sim_item_matrix = cosine_similarity(item_matrix)
+
+    part = item_matrix[:,10:110] #change this depending on which part of item matrix is features
+    cosine_sim_feature_matrix = cosine_similarity(part)
 
 def load_svd_matrix():
     global svd, cosine_sim_svd
@@ -48,7 +61,7 @@ def load_svd_matrix():
 
 @app.route('/')
 def my_form():
-    global books
+    global books, titles
 
     load_books_mappers()
     print('book title mapper loaded')
@@ -56,27 +69,42 @@ def my_form():
     # load_svd_matrix()
     # print('svd loaded')
 
-    books = get_book_dataframe(data_path)
+    load_books()
     print('books loaded')
 
     load_item_matrix()
     print('item_matrix loaded')
-    return render_template('book_list.html')
+    return render_template('book_list.html', titles=titles)
 
 @app.route('/', methods=['POST', 'POST2'])
 def my_form_post():
-    global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix
+    global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
 
     if 'book_recs' in request.form:
         text = request.form['books']
 
         if text not in title_to_bookid:
             return render_template('book_list.html',
-                            error=error_message)
+                                    error=error_message,
+                                    titles=titles)
 
         recs = get_recommendations(books, bookid_to_title, title_to_bookid, text, [cosine_sim_item_matrix], [1])
         return render_template('book_list.html', 
-                        toPass=recs)
+                                toPass=recs,
+                                titles=titles)
+    
+    if 'book_similar' in request.form:
+        text = request.form['books']
+
+        if text not in title_to_bookid:
+            return render_template('book_list.html',
+                                    error=error_message,
+                                    titles=titles)
+
+        recs = get_recommendations(books, bookid_to_title, title_to_bookid, text, [cosine_sim_feature_matrix], [1])
+        return render_template('book_list.html', 
+                                toPass=recs,
+                                titles=titles)
 
     if 'user_recs' in request.form:
         text = request.form['text']
@@ -84,7 +112,8 @@ def my_form_post():
         q = get_user_vector(text)
         if q is None:
             return render_template('book_list.html',
-                            error=error_message)
+                                    error=error_message,
+                                    titles=titles)
 
         # Get recs using item_matrix
         top_books = get_top_n_recs(map_user(q, item_matrix), books, 30, q)
@@ -93,7 +122,8 @@ def my_form_post():
         # top_books = get_top_n_recs(map_user(q, svd.qi), books, 30, q)
 
         return render_template('book_list.html', 
-                        toPass=top_books)
+                                toPass=top_books,
+                                titles=titles)
     else:
         return 'ERROR'
 
