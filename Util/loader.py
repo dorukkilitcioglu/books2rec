@@ -138,6 +138,13 @@ def get_book_features(df):
         tfidf_matrix_shelves = tfidf.fit_transform(df['popular_shelves'])
         tfidf_matrix_tags = tfidf.fit_transform(df['tags'])
 
+        # Weight the smaller matrices bc ration to largest column matrix
+        shelves_weight = tfidf_matrix_description.shape[1] / tfidf_matrix_shelves.shape[1]
+        tags_weight = tfidf_matrix_description.shape[1] / tfidf_matrix_tags.shape[1]
+
+        tfidf_matrix_shelves = tfidf_matrix_shelves.multiply(shelves_weight)
+        tfidf_matrix_tags = tfidf_matrix_tags.multiply(tags_weight)
+
         feature_matrix = scipy.sparse.hstack([tfidf_matrix_description, tfidf_matrix_shelves, tfidf_matrix_tags])
         print('printing feature_matrix to file')
         scipy.sparse.save_npz('../.tmp/feature_matrix', feature_matrix)

@@ -1,0 +1,166 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+footer {
+    flex-shrink: 0;
+}
+article {
+    width: 100%;
+    flex: 1 0 auto;
+}
+.jumbotron {
+    background-color: #292c2f;
+    color: white;
+}
+.jumbo_header {
+    padding-left: 25px;
+}
+.button {
+    display: inline-block;
+    width: 66%;
+    padding: 5px 15px;
+    font-size: 2vmin;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #292c2f;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 3px 3px #999;
+}
+.button:hover {background-color: #292c2f}
+.button:active {
+    background-color: #292c2f;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50vmin;
+    margin-top: 20px;
+}
+.text_box {
+    width: 100%;
+    margin: 5px;
+    font-size: 2vmin;
+    text-align: center;
+}
+.input_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    padding: 15px;
+}
+.book_container {
+    height: 33vh;
+    max-width: 50vh;
+    margin: 20px;
+    border-style: solid;
+    border-color: #292c2f;
+    border-width: 2px;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.book_cover{
+    margin-top: 5px;
+    height: 55%;
+}
+.book_rank {
+    height: 10%;
+    width: 100%;
+    padding-left: 10px;
+    background-color: #292c2f;
+
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+
+    font-size: 1.5vh;
+}
+.book_info {
+    height: 20%;
+    padding: 10px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+
+    font-size: 1.5vmin;
+}
+.response {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;  
+}
+h1 {
+    font-size: 5vmin;
+}
+h4 {
+    font-size: 2vmin;
+}
+h2 {
+    font-size: 3.5vmin;
+}
+h3 a{
+    font-size: 2.5vmin;
+}
+p {
+    font-size: 1.5vmin;
+    margin: 0;
+}
+
+.start_page {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+}
+
+.spinner {
+    display: inline-block;
+    opacity: 0;
+    max-width: 0;
+    -webkit-transition: opacity 0.25s, max-width 0.45s;
+    -moz-transition: opacity 0.25s, max-width 0.45s;
+    -o-transition: opacity 0.25s, max-width 0.45s;
+    transition: opacity 0.25s, max-width 0.45s;
+    /* Duration fixed since we animate additional hidden width */
+  }
+  
+  .has-spinner.active {
+    cursor: progress;
+  }
+  
+  .has-spinner.active .spinner {
+    opacity: 1;
+    max-width: 50px;
+    /* More than it will ever come, notice that this affects on animation duration */
+  }

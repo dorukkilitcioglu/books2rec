@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Book Recommendations</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static',filename='favicon.png') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='footer-distributed.css') }}">
+
+    <link rel= "stylesheet" type= "text/css" href= "../static/main.css">
+    <link rel="stylesheet" href="../static/footer-distributed.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            $('a, button').click(function() {
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="jumbotron">
+            <div class="jumbo_header">
+                <h1>Recs4Books</h1>    
+                <h2>When Machine Learning Meets Reading</h2> 
+            </div>
+        </div>
+    </header>
+    <article>
+        <div class="container">
+            <div class="start_page">
+                <h1>Looking for a new book to read? You've come to the right place.</h1>
+                <h4>For the best experience, head over to <a href="goodreads.com"> Goodreads.com</a> and create an account. Remember to set a <strong>username</strong>  for yourself</h4>
+                <h4>Already have one? Perfect, let's get started.</h4>
+                <form class="form" method="POST">
+                    <button class="button has-spinner" type="submit" name='load' value="Load Books!">
+                        Load Books!
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    </button>
+                </form>
+                <p>Allow for up to 5 seconds to load all the data.</p>
+            </div>
+        </div>
+    </article>
+
+    <footer class="footer-distributed">
+        <div class="footer-right">
+            <a href="https://github.com/dorukkilitcioglu/book-recommender-system"><i class="fa fa-github fa-3x"></i></a>
+        </div>
+        <div class="footer-left">
+            <p class="footer-links">
+                <a href="#">Home</a>
+                ·
+                <a href="#">Blog</a>
+                ·
+                <a href="#">White Paper</a>
+                ·
+                <a href="https://www.goodreads.com/">Goodreads</a>
+                ·
+                <a href="https://www.kaggle.com/zygmunt/goodbooks-10k/data">Goodreads Data</a>
+                ·
+                <a href="https://snap.stanford.edu/data/web-Amazon.html">Stanford Data</a>
+                ·
+                <a href="https://cs.nyu.edu/~abari/">NYU Advisor</a>
+            </p>
+            <p>
+                <a href="https://nickgreenquist.github.io/">Nick Greenquist</a>,
+                <a href="https://dorukkilitcioglu.github.io/">Doruk Kilitcioglu,t</a>,
+                <a href="https://panghalamit.github.io/">Amit Panghal</a>
+                &copy; 2018
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -3,101 +3,28 @@
     <title>Book Recommendations</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="../favicon.png">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static',filename='favicon.png') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='footer-distributed.css') }}">
+    
+    <link rel= "stylesheet" type= "text/css" href= "../static/main.css">
+    <link rel="stylesheet" href="../static/footer-distributed.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style type="text/css" media="screen">
-        .page {
-            width: 100%;
-        }
-        .jumbo_header {
-            padding-left: 25px;
-        }
-        .row {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-self: center;
-        }
-        .col {
-            display: flex;
-            flex-direction: column;
-        }
-        .input_container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-content: center;
-
-            padding: 10px;
-        }
-        .book_container {
-            height: 33vh;
-            margin: 5px;
-            border-style: solid;
-            border-color: teal;
-            border-width: 2px;
-            border-radius: 5px;
-
-            display: flex;
-            flex-direction: column;
-            align-content: center;
-            align-items: center;
-        }
-        .book_cover{
-            margin-top: 5px;
-            height: 55%;
-        }
-        .book_rank {
-            height: 10%;
-            width: 100%;
-            padding-left: 10px;
-            background-color: teal;
-
-            display: flex;
-            flex-direction: row;
-            align-content: center;
-            align-items: center;
-
-            font-size: 1.5vh;
-        }
-        .book_info {
-            height: 20%;
-            padding: 10px;
-            text-align: center;
-
-            display: flex;
-            flex-direction: column;
-            align-content: center;
-            align-items: center;
-
-            font-size: 1.5vmin;
-        }
-        .response {
-            display: flex;
-            flex-direction: column;
-            align-content: center;
-            align-items: center;  
-        }
-        h4 {
-            font-size: 2vmin;
-            margin: 0;
-        }
-        h2 {
-            font-size: 3.5vmin;
-        }
-        p {
-            margin: 0;
-        }
-    </style>
 </head>
 <body>
-    <div class="jumbotron">
-        <div class="jumbo_header">
-            <h1>Book Recommendations</h1>     
+    <header>
+        <div class="jumbotron">
+            <div class="jumbo_header">
+                <h1>Recs4Books</h1>     
+                <h2></h2>
+            </div>
         </div>
-    </div>
-    <div class="page">
+    </header>
+    <article>
         <div class="container">
             <div class="response">
                 <h2>Choose from multiple ways to get recommendations below</h2>
@@ -105,58 +32,88 @@
             <div class="panel-group" id="accordion">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
+                        <h3 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Give me recommendations based on my Goodreads profile</a>
-                        </h4>
+                        </h3>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
                         <div class="input_container">
-                            <p><strong>Note:</strong> You must have a Goodreads account to use this feature. Also, if you want to input your username, your 
-                            <strong>MUST</strong> manually set it in the edit profile page in Goodreads. Otherwise, you can just copy the User ID
-                            that is in the url of your profile page</p>
-                            <form method="POST">
-                                <input name="text" placeholder="Goodreads Username or ID">
-                                <input type="submit" name='user_recs' value="Get Recommendations">
+                            <p>
+                                With this option, we will recommend you books taking into account all the books you have rated. Using Machine Learning,
+                                we map your user profile to a trained model that has learned insights about how books are similar to each. This model ways
+                                trained using over 6 million ratings.  
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="text_box" name="text" placeholder="Goodreads Username or ID">
+                                <input class="button" type="submit" name='user_recs' value="Get Recommendations">
                             </form>
+                            <p><strong>Note:</strong> You must have a Goodreads account to use this feature. Input either your username or the 
+                            ID located in the url of the address bar when you view your profile</p>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
+                        <h3 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">I just want recommendations based a specific book I like</a>
-                        </h4>
+                        </h3>
                     </div>
                     <div id="collapse2" class="panel-collapse collapse">
                         <div class="input_container">
-                            <form method="POST">
-                                <input list="book_drop" name="books" placeholder="Search by Title">
+                            <p>
+                                This option maps a specific book to the learned concepts that our Machine Learning model extracted. Using over 6 million ratings,
+                                our model learns concept spaces based on the ratings of hundreds of thousands of users. It then weights the top books recommended 
+                                by these concepts by its features to give a nice balance of recommendations. 
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="text_box" list="book_drop" name="books" placeholder="Search by Title">
                                 <datalist id="book_drop" name="books">
                                     {% for title in titles %}
                                     <option value="{{title}}">
                                     {% endfor %}
                                 </datalist>
-                                <input type="submit" name='book_recs' value="Get Recommendations">
+                                <input class="button" type="submit" name='book_recs' value="Get Recommendations">
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
+                        <h3 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">I just want books that are similar to a book I like</a>
-                        </h4>
+                        </h3>
                     </div>
                     <div id="collapse3" class="panel-collapse collapse">
                         <div class="input_container">
-                            <form method="POST">
-                                <input list="book_drop" name="books" placeholder="Search by Title">
+                            <p>
+                                This option simply finds the most similar books based on book description, user tags, genres, and the shelves the book has
+                                been place on in Goodreads. This doesn't take into account how books are related based on user ratings. 
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="text_box" list="book_drop" name="books" placeholder="Search by Title">
                                 <datalist id="book_drop" name="books">
                                     {% for title in titles %}
                                     <option value="{{title}}">
                                     {% endfor %}
                                 </datalist>
-                                <input type="submit" name='book_similar' value="Get Simlar Books">
+                                <input class="button" type="submit" name='book_similar' value="Get Simlar Books">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">I am indecisive, just show me the most popular books</a>
+                        </h3>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="input_container">
+                            <p>
+                                Returns the top 100 most popular books according to Goodreads 'most-read'
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="button" type="submit" name='most_popular' value="Get Most Popular">
                             </form>
                         </div>
                     </div>
@@ -189,7 +146,35 @@
             </div>
             {% endfor %}
         </div>
-    </div>
+    </article>
+    <footer class="footer-distributed">
+        <div class="footer-right">
+            <a href="https://github.com/dorukkilitcioglu/book-recommender-system"><i class="fa fa-github fa-3x"></i></a>
+        </div>
+        <div class="footer-left">
+            <p class="footer-links">
+                <a href="#">Home</a>
+                ·
+                <a href="#">Blog</a>
+                ·
+                <a href="#">White Paper</a>
+                ·
+                <a href="https://www.goodreads.com/">Goodreads</a>
+                ·
+                <a href="https://www.kaggle.com/zygmunt/goodbooks-10k/data">Goodreads Data</a>
+                ·
+                <a href="https://snap.stanford.edu/data/web-Amazon.html">Stanford Data</a>
+                ·
+                <a href="https://cs.nyu.edu/~abari/">NYU Advisor</a>
+            </p>
+            <p>
+                <a href="https://nickgreenquist.github.io/">Nick Greenquist</a>,
+                <a href="https://dorukkilitcioglu.github.io/">Doruk Kilitcioglu,t</a>,
+                <a href="https://panghalamit.github.io/">Amit Panghal</a>
+                &copy; 2018
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
 

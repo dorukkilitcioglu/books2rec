@@ -8,24 +8,26 @@ import sys
 # Custom libraries
 sys.path.append('../Util')
 from loader import get_book_dataframe, get_book_features
-from recommender import get_recommendations, get_top_n_recs, map_user, map_user_sparse
+from recommender import get_recommendations, get_top_n_recs, map_user, map_user_sparse, most_popular
 from goodreads_data import get_user_vector
 
 app = Flask(__name__)
 
 data_path = '../../goodbooks-10k/'
-bookid_to_title = {}
-title_to_bookid = {}
+data_loaded = False
+bookid_to_title = None
+title_to_bookid = None
 item_matrix = None
 qi = None
 cosine_sim_item_matrix = None
 cosine_sim_feature_matrix = None
 books = None
-titles = []
+titles = None
 error_message = "I can't seem to find anything with what you gave me, I'm sorry"
 
 def load_books():
     global books, titles
+    titles = []
     books = get_book_dataframe(data_path)
     for index, row in books.iterrows():
         titles.append(row['title'])
@@ -34,6 +36,8 @@ def load_books():
 
 def load_books_mappers():
     global bookid_to_title, title_to_bookid
+    bookid_to_title = {}
+    title_to_bookid = {}
     filename = data_path + 'books.csv'
     with open(filename, "r", encoding='utf8') as f:
         reader = csv.reader(f, delimiter=",")
@@ -56,18 +60,29 @@ def load_svd_matrix():
     qi = np.load('../.tmp/svd_100_300.npy')
     print('svd matrix loaded')
 
-@app.route('/')
-def my_form():
-    global books, titles
+def load_data():
+    global books, titles, data_loaded
     load_books_mappers()
     # load_svd_matrix()
     load_books()
     load_item_matrix()
+    data_loaded = True
     return render_template('book_list.html', titles=titles)
+
+@app.route('/')
+def my_form():
+    global books, titles, data_loaded
+    if not data_loaded:
+        return render_template('start.html')
+    else:
+        return render_template('book_list.html', titles=titles)
 
 @app.route('/', methods=['POST', 'POST2'])
 def my_form_post():
     global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
+    if 'load' in request.form:
+        print('loadin data')
+        return load_data()
 
     if 'book_recs' in request.form:
         text = request.form['books']
@@ -116,6 +131,12 @@ def my_form_post():
                                 toPass=top_books,
                                 titles=titles,
                                 response='Showing Recommendations for: ' + text)
+    if 'most_popular' in request.form:
+        top_books = most_popular(books, 100)
+        return render_template('book_list.html', 
+                                toPass=top_books,
+                                titles=titles,
+                                response='100 Most Popular Books')
     else:
         return 'ERROR'
 

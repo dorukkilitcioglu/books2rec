@@ -53,7 +53,7 @@ def get_recommendations(books, bookid_to_title, title_to_bookid, title, similari
         book['author'] = book['author'].strip()
         top_books.append(book)
 
-    # chunk into groups of 4 to display better in web app
+    # chunk into groups of 3 to display better in web app
     chunks = []
     current_chunk = []
     for i in range(len(top_books)):
@@ -86,7 +86,7 @@ def get_top_n_recs(result, books, n, q):
         book['author'] = book['author'].strip()
         top_books.append(book)
     
-    # chunk into groups of 4 to display better in web app
+    # chunk into groups of 3 to display better in web app
     chunks = []
     current_chunk = []
     for i in range(len(top_books)):
@@ -113,3 +113,27 @@ def map_user_sparse(q, V):
     # map user back to itme space with user_to_concept * VT
     result = user_to_concept.dot(feature_matrix.T).todense()
     return result.T
+
+def most_popular(books, n):
+    top_books = []
+    for i in range(n):
+        book = books.iloc[i]
+        book['rank'] = i + 1
+
+        # for some reason, some of the text fields have newlines appended to them
+        book['title'] = book['title'].strip()
+        book['author'] = book['author'].strip()
+        top_books.append(book)
+
+    # chunk into groups of 4 to display better in web app
+    chunks = []
+    current_chunk = []
+    for i in range(len(top_books)):
+        if len(current_chunk) < 3:
+            current_chunk.append(top_books[i])
+        else:
+            chunks.append(current_chunk)
+            current_chunk = [top_books[i]]
+    chunks.append(current_chunk)
+
+    return chunks
