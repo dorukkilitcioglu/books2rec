@@ -109,9 +109,9 @@ def map_user(q, V):
 def map_user_sparse(q, V):
     q_sparse = scipy.sparse.csr_matrix(q)
     # map new user to concept space by q*V
-    user_to_concept = q_sparse.dot(feature_matrix)
+    user_to_concept = q_sparse.dot(V)
     # map user back to itme space with user_to_concept * VT
-    result = user_to_concept.dot(feature_matrix.T).todense()
+    result = user_to_concept.dot(V.T).todense()
     return result.T
 
 def most_popular(books, n):

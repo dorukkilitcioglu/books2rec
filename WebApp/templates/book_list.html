@@ -14,13 +14,20 @@
     <link rel="stylesheet" href="../static/footer-distributed.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            $('a, button').click(function() {
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
         <div class="jumbotron">
             <div class="jumbo_header">
-                <h1>Recs4Books</h1>     
-                <h2></h2>
+                <h1>Recs4Books</h1>    
+                <h2>Machine Learning Meets Reading</h2> 
             </div>
         </div>
     </header>
@@ -45,7 +52,10 @@
                             </p>
                             <form class="form" method="POST">
                                 <input class="text_box" name="text" placeholder="Goodreads Username or ID">
-                                <input class="button" type="submit" name='user_recs' value="Get Recommendations">
+                                <button class="button has-spinner" type="submit" name='user_recs' value="Get Recommendations">
+                                    Get Recommendations
+                                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                                </button>
                             </form>
                             <p><strong>Note:</strong> You must have a Goodreads account to use this feature. Input either your username or the 
                             ID located in the url of the address bar when you view your profile</p>
@@ -55,7 +65,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">I just want recommendations based a specific book I like</a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">I just want recommendations based on a book I like</a>
                         </h3>
                     </div>
                     <div id="collapse2" class="panel-collapse collapse">
@@ -110,7 +120,7 @@
                     <div id="collapse4" class="panel-collapse collapse">
                         <div class="input_container">
                             <p>
-                                Returns the top 100 most popular books according to Goodreads 'most-read'
+                                Returns the top 99 most popular books according to Goodreads 'most-read'
                             </p>
                             <form class="form" method="POST">
                                 <input class="button" type="submit" name='most_popular' value="Get Most Popular">
