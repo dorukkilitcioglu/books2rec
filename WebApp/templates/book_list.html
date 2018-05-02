@@ -118,8 +118,8 @@
                             <a href={{book['url']}}><img style="height: 100%;" border="0" src={{book['image_url']}} /></a>
                         </div>
                         <div class="book_info">
-                            <h4>{{book['title']}}</h4>
-                            <p>By: {{book['author']}}</p>
+                            <h4>{{book['title']}}, {{book['author']}}</h4>
+                            <a data-toggle="tooltip"  title="{{book['description']}}" data-placement="right">Read Description</a>
                         </div>
                     </div>
                 </div>
@@ -131,4 +131,3 @@
     {% include 'components/footer.html' %}
 </body>
 </html>
-
