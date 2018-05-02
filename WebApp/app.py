@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from sklearn.metrics.pairwise import cosine_similarity
 from surprise import Reader, Dataset, SVD, evaluate, dump, accuracy
 import numpy as np
@@ -12,6 +12,9 @@ from util import get_user_vector, chunker, get_top_n_recs, map_user, most_popula
 
 app = Flask(__name__)
 
+
+''' GLOBALS
+'''
 data_loaded = False
 bookid_to_title = None
 title_to_bookid = None
@@ -24,6 +27,9 @@ books = None
 titles = None
 error_message = "I can't seem to find anything with what you gave me, I'm sorry"
 
+
+''' DATA LOADING FUNCTIONS
+'''
 def load_books():
     global books, titles
     titles = []
@@ -87,21 +93,33 @@ def load_data():
     data_loaded = True
     return render_template('book_list.html', titles=titles)
 
+''' HOME PAGE
+'''
 @app.route('/')
-def my_form():
-    global books, titles, data_loaded
-    if not data_loaded:
-        return render_template('start.html')
-    else:
-        return render_template('book_list.html', titles=titles)
+def home():
+    return render_template('start.html')
 
 @app.route('/', methods=['POST'])
-def my_form_post():
-    global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
+def home_post():
     if 'load' in request.form:
-        print('loadin data')
-        return load_data()
+        return redirect(url_for('recommender'))
 
+
+''' RECOMMENDER PAGE
+'''
+@app.route('/recommender')
+def recommender():
+    global books, titles, data_loaded
+    if not data_loaded:
+        print('loading data')
+        return load_data()
+    else:
+        print('data already loded in server')
+        return render_template('book_list.html', titles=titles)
+
+@app.route('/recommender', methods=['POST'])
+def recommender_post():
+    global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
     if 'book_recs' in request.form:
         text = request.form['books']
 
@@ -156,6 +174,7 @@ def my_form_post():
                                 toPass=chunks,
                                 titles=titles,
                                 response='Showing Recommendations for: ' + text)
+                                
     if 'most_popular' in request.form:
         top_books = most_popular(books, 99)
         chunks = chunker(top_books)

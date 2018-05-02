@@ -17,7 +17,7 @@
 }
 
 .footer-distributed .footer-left p{
-	color:  #8f9296;
+	color:  white;
 	margin: 0;
 }
 
@@ -33,7 +33,7 @@
 .footer-distributed p.footer-links a{
 	display:inline-block;
 	line-height: 1.8;
-	text-decoration: none;
+	text-decoration: underline;
 	color:  inherit;
 }
 

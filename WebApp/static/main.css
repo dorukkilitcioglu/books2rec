@@ -34,7 +34,7 @@ article {
     border-radius: 15px;
     box-shadow: 3px 3px #999;
 }
-.button:hover {background-color: #292c2f}
+.button:hover {background-color: #666}
 .button:active {
     background-color: #292c2f;
     box-shadow: 0 5px #666;
@@ -120,6 +120,12 @@ article {
 }
 h1 {
     font-size: 5vmin;
+}
+h1 a {
+    color: white;
+}
+h1 a:hover {
+    color: #666;
 }
 h4 {
     font-size: 2vmin;
