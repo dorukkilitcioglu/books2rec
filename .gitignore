@@ -6,3 +6,4 @@ data/amazon/
 __pycache__/
 .tmp/
 secret.py
+logs/

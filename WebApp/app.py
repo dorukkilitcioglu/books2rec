@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for
 from sklearn.metrics.pairwise import cosine_similarity
-from surprise import Reader, Dataset, SVD, evaluate, dump, accuracy
 import numpy as np
 import pandas as pd
 import pickle
@@ -186,4 +185,4 @@ def recommender_post():
         return 'ERROR'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

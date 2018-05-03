@@ -8,7 +8,6 @@ import scipy
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 from sklearn.decomposition import TruncatedSVD
-from surprise import Reader, Dataset, SVD, evaluate, dump, accuracy
 from collections import defaultdict
 
 # Custom libraries
