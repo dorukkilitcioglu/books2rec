@@ -110,18 +110,7 @@
             <div class="row">
                 {% for book in chunk %}
                 <div class="col-sm-4">
-                    <div class="book_container">
-                        <div class="book_rank">
-                            <p style="color: white">Rank: {{book['rank']}}</p>
-                        </div>
-                        <div class="book_cover" >
-                            <a href={{book['url']}}><img style="height: 100%;" border="0" src={{book['image_url']}} /></a>
-                        </div>
-                        <div class="book_info">
-                            <h4>{{book['title']}}, {{book['author']}}</h4>
-                            <a data-toggle="tooltip"  title="{{book['description']}}" data-placement="right">Read Description</a>
-                        </div>
-                    </div>
+                    {% include 'components/book.html' %}
                 </div>
                 {% endfor %}
             </div>

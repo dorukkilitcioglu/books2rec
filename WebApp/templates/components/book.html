@@ -1,0 +1,15 @@
+<div class="book_container">
+    <div class="book_rank">
+        <p style="color: white">Rank: {{book['rank']}}</p>
+    </div>
+    <div class="book_row">
+        <div class="book_cover" >
+            <a href={{book['url']}}><img border="0" src={{book['image_url']}} /></a>
+        </div>
+        <div class="book_info">
+            <h4>{{book['title']}}</h4>
+            <p>By: {{book['author']}}</p>
+            <a data-toggle="tooltip"  title="{{book['description']}}" data-placement="right">Read Description</a>
+        </div>
+    </div>
+</div>

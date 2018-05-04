@@ -69,6 +69,11 @@ article {
 
     padding: 15px;
 }
+.book_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
 .book_container {
     height: 33vh;
     max-width: 50vh;
@@ -83,9 +88,23 @@ article {
     align-content: center;
     align-items: center;
 }
+.book_row {
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .book_cover{
-    margin-top: 5px;
-    height: 55%;
+    flex-basis: 100%;
+    width: 50%;
+}
+.book_cover img {
+    width:100%;
+    height:100%;
+    object-fit: contain;
+    overflow: hidden;
 }
 .book_rank {
     height: 10%;
@@ -101,12 +120,14 @@ article {
     font-size: 1.5vh;
 }
 .book_info {
-    height: 20%;
-    padding: 10px;
+    flex-basis: 100%;
+
+    height: 100%;
     text-align: center;
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-content: center;
     align-items: center;
 
@@ -137,8 +158,11 @@ h3 a{
     font-size: 2.5vmin;
 }
 p {
-    font-size: 1.5vmin;
     margin: 0;
+    font-size: 1.5vmin;
+}
+.book_info p {
+    margin: 5px;
 }
 
 .start_page {
@@ -170,3 +194,9 @@ p {
     max-width: 50px;
     /* More than it will ever come, notice that this affects on animation duration */
   }
+
+  .tooltip-inner {
+    max-width: 25vw;
+    /* If max-width does not work, try using width instead */
+    width: 350px; 
+}
