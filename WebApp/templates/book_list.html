@@ -47,12 +47,12 @@
                                 by these concepts by its features to give a nice balance of recommendations. 
                             </p>
                             <form class="form" method="POST">
-                                <input class="text_box" list="book_drop" name="books" placeholder="Search by Title">
-                                <datalist id="book_drop" name="books">
+                                <select class="js-example-basic-single" name="books">
+                                    <option value="">Enter a Title</option>
                                     {% for title in titles %}
-                                    <option value="{{title}}">
+                                    <option value="{{title}}">{{title}}</option>
                                     {% endfor %}
-                                </datalist>
+                                </select>
                                 <input class="button" type="submit" name='book_recs' value="Get Recommendations">
                             </form>
                         </div>
@@ -71,12 +71,12 @@
                                 been place on in Goodreads. This doesn't take into account how books are related based on user ratings. 
                             </p>
                             <form class="form" method="POST">
-                                <input class="text_box" list="book_drop" name="books" placeholder="Search by Title">
-                                <datalist id="book_drop" name="books">
+                                <select class="js-example-basic-single" name="books">
+                                    <option value="">Enter a Title</option>
                                     {% for title in titles %}
-                                    <option value="{{title}}">
+                                    <option value="{{title}}">{{title}}</option>
                                     {% endfor %}
-                                </datalist>
+                                </select>
                                 <input class="button" type="submit" name='book_similar' value="Get Simlar Books">
                             </form>
                         </div>

@@ -21,8 +21,11 @@
         });
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();    
-            $('#book_rec').select2();
-            $('#book_sim').select2();
+            $('.js-example-basic-single').select2({
+                minimumInputLength: 3,
+                placeholder: "Enter title",
+                width: '100%'
+            });
         });
     </script>
 </head>
