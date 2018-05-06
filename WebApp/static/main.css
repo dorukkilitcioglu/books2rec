@@ -16,6 +16,25 @@ article {
 .jumbo_header {
     padding-left: 25px;
 }
+.setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+.setup_item {
+    width: 90%;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+.setup img{
+    width: 50%;
+}
 #book_rec, #book_sim {
     width: 33vw;
 }

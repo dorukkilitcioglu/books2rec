@@ -103,6 +103,16 @@ def home_post():
     if 'load' in request.form:
         return redirect(url_for('recommender'))
 
+''' SETUP PAGE
+'''
+@app.route('/setup')
+def setup():
+    return render_template('setup.html')
+
+@app.route('/setup', methods=['POST'])
+def setup_post():
+    if 'load' in request.form:
+        return redirect(url_for('recommender'))
 
 ''' RECOMMENDER PAGE
 '''
