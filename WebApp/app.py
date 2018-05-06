@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import pandas as pd
+import logging
 import pickle
 import csv
 import sys
@@ -185,3 +186,7 @@ def recommender_post():
 
 if __name__ == '__main__':
     app.run()
+else:
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
