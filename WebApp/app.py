@@ -15,7 +15,6 @@ app = Flask(__name__)
 
 ''' GLOBALS
 '''
-data_loaded = False
 bookid_to_title = None
 title_to_bookid = None
 mapper_id = None
@@ -31,65 +30,70 @@ titles = None
 '''
 def load_books():
     global books, titles
-    titles = []
-    books = pd.read_pickle('static/data/books_dataframe')
-    for index, row in books.iterrows():
-        titles.append(row['title'])
-    titles.sort()
-    print('books loaded')
+    if books is None or titles is None:
+        titles = []
+        books = pd.read_pickle('static/data/books_dataframe')
+        for index, row in books.iterrows():
+            titles.append(row['title'])
+        titles.sort()
+        print('books loaded')
 
 def load_title_mappers():
     global bookid_to_title, title_to_bookid
-    bookid_to_title = {}
-    title_to_bookid = {}
-    filename = 'static/data/books.csv'
-    with open(filename, "r", encoding='utf8') as f:
-        reader = csv.reader(f, delimiter=",")
-        for i, line in enumerate(reader):
-            bookid_to_title[line[0]] = line[10]
-            title_to_bookid[line[10]] = line[0]
-    print('books mapper loaded')
+    if bookid_to_title is None or title_to_bookid is None:
+        bookid_to_title = {}
+        title_to_bookid = {}
+        filename = 'static/data/books.csv'
+        with open(filename, "r", encoding='utf8') as f:
+            reader = csv.reader(f, delimiter=",")
+            for i, line in enumerate(reader):
+                bookid_to_title[line[0]] = line[10]
+                title_to_bookid[line[10]] = line[0]
+        print('books mapper loaded')
 
 def load_id_mapper():
     global mapper_id
-    mapper_id = {}
-    filename = 'static/data/books.csv'
-    with open(filename, "r", encoding='utf8') as f:
-        reader = csv.reader(f, delimiter=",")
-        for i, line in enumerate(reader):
-            mapper_id[line[1]] = line[0]
-    print('mapper_id loaded')
+    if mapper_id is None:
+        mapper_id = {}
+        filename = 'static/data/books.csv'
+        with open(filename, "r", encoding='utf8') as f:
+            reader = csv.reader(f, delimiter=",")
+            for i, line in enumerate(reader):
+                mapper_id[line[1]] = line[0]
+        print('mapper_id loaded')
 
 def load_item_matrix():
     global item_matrix
-    item_matrix = np.load('static/data/item_matrix.npy')
-    print('item matrix loaded')
+    if item_matrix is None:
+        item_matrix = np.load('static/data/item_matrix.npy')
+        print('item matrix loaded')
 
 def load_top_recs_each_book():
     global top_recs_each_book_item_matrix, top_recs_each_book_feature_matrix
-    f = open('static/data/top_recs_each_book_item_matrix.pkl',"rb")
-    top_recs_each_book_item_matrix = pickle.load(f)
-    f.close()
+    if top_recs_each_book_feature_matrix is None or top_recs_each_book_item_matrix is None:
+        f = open('static/data/top_recs_each_book_item_matrix.pkl',"rb")
+        top_recs_each_book_item_matrix = pickle.load(f)
+        f.close()
 
-    f = open('static/data/top_recs_each_book_feature_matrix.pkl',"rb")
-    top_recs_each_book_feature_matrix = pickle.load(f)
-    f.close()
-    print('top recs for each book loaded')
+        f = open('static/data/top_recs_each_book_feature_matrix.pkl',"rb")
+        top_recs_each_book_feature_matrix = pickle.load(f)
+        f.close()
+        print('top recs for each book loaded')
 
 def load_svd_matrix():
     global qi
-    qi = np.load('static/data/svd.npy')
-    print('svd matrix loaded')
+    if qi is None:
+        qi = np.load('static/data/svd.npy')
+        print('svd matrix loaded')
 
 def load_data():
-    global books, titles, data_loaded
+    global titles
     load_title_mappers()
     load_id_mapper()
     load_svd_matrix()
     load_books()
     load_item_matrix()
     load_top_recs_each_book()
-    data_loaded = True
     return render_template('book_list.html', titles=titles)
 
 ''' HOME PAGE
@@ -118,13 +122,7 @@ def setup_post():
 '''
 @app.route('/recommender')
 def recommender():
-    global books, titles, data_loaded
-    if not data_loaded:
-        print('loading data')
-        return load_data()
-    else:
-        print('data already loded in server')
-        return render_template('book_list.html', titles=titles)
+    return load_data()
 
 @app.route('/recommender', methods=['POST'])
 def recommender_post():
