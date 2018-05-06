@@ -75,7 +75,13 @@ def get_user_vector(user_input, books, mapper):
                 print("%s --> %s" % (q[i], title))
         
         # Turn 1-5 rating scale into negative - positive scale
-        ratings_mapper = {0:0, 1:-2, 2:-1, 3:1, 4:2, 5:3}
+        # Because 5's and 1's are so rare, our scale is exponential
+        # 1 -> -e^3
+        # 2 -> -e^2
+        # 3 -> e^0
+        # 4 -> e^2
+        # 5 -> e^3
+        ratings_mapper = {0:0, 1:-20, 2:-7, 3:1, 4:7, 5:20}
         for i in range(len(q)):
             q[i] = ratings_mapper[q[i]]
 
