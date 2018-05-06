@@ -85,8 +85,10 @@ def get_user_vector(user_input, books, mapper):
         for i in range(len(q)):
             q[i] = ratings_mapper[q[i]]
 
-        print('saving user_vector...')
-        scipy.sparse.save_npz('static/data/cached_users/user_'+user_input+'.npz', scipy.sparse.csr_matrix(q))
+        # Disable this until we find a 'smart' caching solution
+        # print('saving user_vector...')
+        # scipy.sparse.save_npz('static/data/cached_users/user_'+user_input+'.npz', scipy.sparse.csr_matrix(q))
+
         return q, None
 
 '''
