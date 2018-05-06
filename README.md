@@ -1,9 +1,10 @@
 # Books2Rec: Machine Learning meets Reading
 
 <img src="data/images/books2rec.png" alt="Books2Rec Screenshot" width="80%">
-Books2Rec is a book recommender system built for the Big Data Science class at NYU. Using your [Goodreads](https://www.goodreads.com/) profile, Books2Rec uses Machine Learning methods to provide you with highly personalized book recommendations. Don't have a Goodreads profile? We've got you covered - just search for your favorite book.
 
-[Check it out](https://books2rec.me/).
+[Books2Rec](https://books2rec.me/) is a book recommender system built for the Big Data Science class at NYU. Using your [Goodreads](https://www.goodreads.com/) profile, Books2Rec uses Machine Learning methods to provide you with highly personalized book recommendations. Don't have a Goodreads profile? We've got you covered - just search for your favorite book.
+
+### [Check it out here!](https://books2rec.me/)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -30,12 +31,23 @@ As a trio of book lovers, we looked at Goodreads, the world's largest site for r
     <figcaption><i>Example of an unrelated recommendation by Goodreads.</i></figcaption>
 </figure>
 
-We are using a hybrid recommender system in order to provide recommendations for Goodreads users.
+
+We are using a hybrid recommender system in order to provide recommendations for Goodreads users (ratings and item features).
+
+<div style="margin: 0 auto;max-width: 700px;text-align: center;">
+    <figure>
+        <img src='data/images/books2rec-charlie-itemmatrix.png' alt='Example of Books2Rec recommendation'/>
+        <figcaption><i>Example of our recommendations based on our hybrid model. </i></figcaption>
+    </figure>
+</div>
+
+
+We also provide more 'traditional' recommendations that only use the book's features. 
 
 <div style="margin: 0 auto;max-width: 700px;text-align: center;">
     <figure>
         <img src='data/images/books2rec-charlie.png' alt='Example of Books2Rec recommendation'/>
-        <figcaption><i>Example of our recommendations. All books are from the original authors.</i></figcaption>
+        <figcaption><i>Example of our recommendations based on pure book metadata features. Notice how it picks up on all the other books from the author despite `author` not being a feature we included in our model.</i></figcaption>
     </figure>
 </div>
 
