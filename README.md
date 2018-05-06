@@ -47,7 +47,7 @@ Our hybrid system uses both of these approaches. Our item similarities are a com
 Powering our recommendations is the Netflix-prize winner SVD algorithm. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
 
 ### Evaluation Metrics
-There are two widely used metrics in recommender systems that we also use. The **Mean Squared Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousing, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
+There are two widely used metrics in recommender systems that we also use. The **Mean Squared Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousin, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
 
 ## Project Structure
 As heavily encouraged by our advisor, Dr. Anasse Bari, we have tried a lot of different technologies in our quest to make a book recommender system. As such, we have multiple different mini-projects in this repo. These are mostly contained into individual folders.
@@ -76,7 +76,7 @@ After these steps, the data was clean enough to be server on the web server and 
 ![RapidMiner Item Recommendation Process](data/images/rapidminer.png "RapidMiner Item Recommendation Process")
 
 ### <a name="mahout"></a><img src="data/images/mahout-logo.svg" alt="Mahout Logo" width="30%">
-[Apache Mahout](https://mahout.apache.org/) is a distributed linear algebra framework that has a lot of built-in Machine Learning algorithms. Crucially for us, it implements a lot of the most common algorithms for recommender systems out of the box. We used Mahout's `ItemBasedRecommender` in order to generate item recommendations. The Eclipse project that was used to generate recommendations can be found in the [Mahout/RecommenderSystem](Mahout/RecommenderSystem) folder.
+[Apache Mahout](https://mahout.apache.org/) is a distributed linear algebra framework that has a lot of built-in Machine Learning algorithms. Crucially for us, it implements a lot of the most common algorithms for recommender systems out of the box. We used Mahout's `ItemBasedRecommender` in order to generate item recommendations. We were able to achive a RMSE of 0.888. The Eclipse project that was used to generate recommendations can be found in the [Mahout/RecommenderSystem](Mahout/RecommenderSystem) folder.
 
 ### Surprise
 [Surprise](http://surpriselib.com/) is a Python library designed to generate recommendations and evaluate recommenders. It provides a nice API and a nice pipeline for recommender systems, but we found that it was not as malleable as we wanted it to be. It proved to be quite difficult getting different sorts of recommenders to work nicely with it's pipeline, but standard algorithms like SVD was a breeze.
