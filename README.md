@@ -26,23 +26,28 @@ Recommender systems is at the forefront of the ways in which content-serving web
 As a trio of book lovers, we looked at Goodreads, the world's largest site for readers and book recommendations. It is owned by Amazon, which itself has a stellar recommendation engine. However, we found that their recommendations leave a lot to be desired.
 
 <figure>
-    <img src='data/images/goodreads-rec.png' alt='Example of Goodreads recommendation' width="30%"/>
+    <img src='data/images/goodreads-charlie.png' alt='Example of Goodreads recommendation' width="30%"/>
     <figcaption><i>Example of an unrelated recommendation by Goodreads.</i></figcaption>
 </figure>
 
 We are using a hybrid recommender system in order to provide recommendations for Goodreads users.
 
+<div style="margin: 0 auto;max-width: 700px;text-align: center;">
+    <figure>
+        <img src='data/images/books2rec-charlie.png' alt='Example of Books2Rec recommendation'/>
+        <figcaption><i>Example of our recommendations. All books are from the original authors.</i></figcaption>
+    </figure>
+</div>
+
 ## How it Works
-TODO
+We use a hybrid recommender system to power our recommendations. Hybrid systems are the combination of two other types of recommender systems: content-based filtering and collaborative filtering. Content-based filtering is a method of recommending items by the similarity of the said items. That is, if I like the first book of the Lord of the Rings, and if the second book is similar to the first, it can recommend me the second book. Collaborative filtering is a method by which user ratings are used in order to determine user or item similarities. If there is a high correlation of users rating the first Lord of the Rings book and the second Lord of the Rings book, then they are deemed to be similar.
+
+Our hybrid system uses both of these approaches. Our item similarities are a combination of user ratings and features derived from books themselves.
+
+Powering our recommendations is the Netflix-prize winner SVD algorithm. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
 
 ### Evaluation Metrics
-TODO
-
-#### Root Mean Squared Error
-TODO
-
-### Mean Absolute Error
-TODO
+There are two widely used metrics in recommender systems that we also use. The **Mean Squared Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousing, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
 
 ## Project Structure
 As heavily encouraged by our advisor, Dr. Anasse Bari, we have tried a lot of different technologies in our quest to make a book recommender system. As such, we have multiple different mini-projects in this repo. These are mostly contained into individual folders.
@@ -55,7 +60,15 @@ Download the Goodreads data from [goodbooks-10k repository](https://github.com/z
 The Amazon ratings were kindly provided by [Jure Leskovec](https://snap.stanford.edu/data/web-Amazon.html) and [Julian McAuley](http://jmcauley.ucsd.edu/data/amazon/). We used the subset of the book ratings that matched the Goodbooks 10k dataset.
 
 #### Data Preprocessing
-TODO
+Data preprocessing is one of the (if not _the_) most significant part of any Data Science project. The most difficult part of our data preprocessing was joining the Goodreads data and the Amazon ratings together. The Amazon ratings were attached an Amazon Standard Identification Number (ASIN), but not an ISBN. We mapped the ASIN to book titles, the Goodreads book ids to book titles, and did a hash-join on the two title sets to join both sets of ratings together. This step can be found under the [Preprocessing](Preprocessing/) folder.
+
+In order to see the difference between the rating distribution between the two datasets, we used visualizations. The visualizations were generated using `R` programming language, and can be found under the [Visualization](Visualization/) folder.
+
+<img src="Visualization/Ratings_files/figure-html/unnamed-chunk-7-1.png" alt="Rating distributions" width="60%">
+
+The next step was generating the book features, which was done by constructing tf-idf vectors of the book descriptions, tags, and shelves. There were also a lot of missing images in the Goodreads dataset, which decreased the quality of our web app by a lot, and so these images were re-obtained from Goodreads. These steps can be found under the [Transformation](Transformation/) folder.
+
+After these steps, the data was clean enough to be server on the web server and converted into a numerical format that was able to be consumed by Machine Learning algorithms.
 
 ### <a name="rapidminer"></a><img src="data/images/rapidminer-logo.png" alt="RapidMiner Logo" width="30%">
 [RapidMiner](https://rapidminer.com/) is a Data Science platform that allows for rapid prototyping of Machine Learning algorithms. We used RapidMiner to get a 'feel' for our data. It was great for quickly applying models and seeing their results, but it proved inflexible, and it could not handle more than 12000 users until there was a memory error or an array overflow. The RapidMiner `rmp` files that were used to generate the recommendations can be found in the [RapidMiner](RapidMiner/) folder. They were able to achieve a RMSE of 0.864 and a MAE of 0.685.
@@ -73,10 +86,12 @@ We used the Surprise library in order to do matrix factorization on the user-ite
 There are multiple hyperparameters one can use for training the SVD model. We used Grid Search on the hyperparameter space in order to find the best hyperparameters, with the help of [NYU High Performance Computing](https://wikis.nyu.edu/display/NYUHPC/High+Performance+Computing+at+NYU). The code for that can be found in the [HPC](HPC/) folder.
 
 ### Recommendation Pipeline
-TODO
+In order to have better control over the recommendations, we built our own recommendation pipeline. This pipeline takes as input the preprocessed ratings and book features, uses SVD to learn the item-concept matrix for both ratings and book features, combines the two results, calculates book similarities, and produces recommendations. For testing, this pipeline also includes k-fold cross validation and the calculation of error metrics. The code can be found in the [Util](Util/) folder, divided into multiple logical pieces.
+
+A version of the pipeline that uses Deep Learning to generate recommendations can be found in the [Evaluation](Evaluation/) folder, and will be completed in the future.
 
 ### Web App
-TODO
+Our web application is powered by [Flask](http://flask.pocoo.org/), the easy to use Python web framework. As mentioned above, our website is [live](https://books2rec.me/) for you to test your recommendations with. The code that powers it can be found under the [WebApp](WebApp/) folder.
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
