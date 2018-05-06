@@ -7,7 +7,7 @@ import csv
 import sys
 
 # Custom libraries
-from util import get_user_vector, chunker, get_top_n_recs, map_user, most_popular, get_books_from_indices
+from util import get_user_vector, chunker, get_top_n_recs, map_user, most_popular, get_books_from_indices, not_found_error_message, private_error_message
 
 app = Flask(__name__)
 
@@ -24,7 +24,6 @@ top_recs_each_book_item_matrix = None
 top_recs_each_book_feature_matrix = None
 books = None
 titles = None
-error_message = "I can't seem to find anything with what you gave me, I'm sorry"
 
 
 ''' DATA LOADING FUNCTIONS
@@ -118,13 +117,13 @@ def recommender():
 
 @app.route('/recommender', methods=['POST'])
 def recommender_post():
-    global item_matrix, books, error_message, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
+    global item_matrix, books, title_to_bookid, cosine_sim_item_matrix, cosine_sim_feature_matrix
     if 'book_recs' in request.form:
         text = request.form['books']
 
         if text not in title_to_bookid:
             return render_template('book_list.html',
-                                    response=error_message,
+                                    response=not_found_error_message,
                                     titles=titles)
 
         book_id = int(title_to_bookid[text])
@@ -141,7 +140,7 @@ def recommender_post():
 
         if text not in title_to_bookid:
             return render_template('book_list.html',
-                                    response=error_message,
+                                    response=not_found_error_message,
                                     titles=titles)
 
         book_id = int(title_to_bookid[text])
@@ -156,8 +155,8 @@ def recommender_post():
     if 'user_recs' in request.form:
         text = request.form['text']
 
-        q = get_user_vector(text, books, mapper_id)
-        if q is None:
+        q, error_message = get_user_vector(text, books, mapper_id)
+        if error_message:
             return render_template('book_list.html',
                                     response=error_message,
                                     titles=titles)
@@ -185,4 +184,4 @@ def recommender_post():
         return 'ERROR'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()

@@ -13,6 +13,9 @@ from collections import defaultdict
 # Custom libraries
 import secret # need to make this and add goodreads_api key
 
+not_found_error_message = "I can't seem to find anything with what you gave me, I'm sorry"
+private_error_message = "This user account is private, I'm sorry"
+
 def get_id_from_username(username, api_key):
     response = requests.get('https://www.goodreads.com/user/show/?key='+api_key+'&username='+username+'&format=xml')
     tree = ElementTree.fromstring(response.content)
@@ -24,12 +27,18 @@ def get_id_from_username(username, api_key):
         return None
 
 def get_user_vector(user_input, books, mapper):
+    """ Gets the user ratings vector of a user
+
+    Returns:
+        user_vector: a numpy array of 10000 ratings for the given user
+        error_message: an error message string, if there is an error
+    """
     try:
         sparse_q = scipy.sparse.load_npz('static/data/cached_users/user_'+user_input+'.npz')
         q = sparse_q.toarray()
         q = np.array(q[0].tolist())
         print('found user_vector...')
-        return q
+        return q, None
     except:
         q = np.zeros((10000), dtype = np.int)
         api_key = secret.API_KEY
@@ -39,13 +48,15 @@ def get_user_vector(user_input, books, mapper):
             user_id = user_input
         
         if user_id is None:
-            return None
+            return None, not_found_error_message
 
         page = 1
         while True:
             response = requests.get('https://www.goodreads.com/review/list/?v=2&id='+user_id+'&shelf=read&format=xml&key='+api_key+'&per_page=200&page=' + str(page))
             tree = ElementTree.fromstring(response.content)
             reviews = tree.find('reviews')
+            if reviews is None:
+                return None, private_error_message
             for review in reviews:
                 goodreads_book_id = str(review.find('book').find('id').text)
                 if goodreads_book_id in mapper:
@@ -70,7 +81,7 @@ def get_user_vector(user_input, books, mapper):
 
         print('saving user_vector...')
         scipy.sparse.save_npz('static/data/cached_users/user_'+user_input+'.npz', scipy.sparse.csr_matrix(q))
-        return q
+        return q, None
 
 '''
 
