@@ -1,9 +1,9 @@
 // Run as eclipse project
 1) Load as existing maven project in eclipse
-2) Takes args, 1) path to rating matrix  2) path to item-item similarity matrix if content-based-filtering
+2) Takes args, 1) path to rating matrix  2) path to book.csv (metadata) 3)path to input file with book ids  4) path to item-item similarity matrix if content-based-filtering
 
 // Run on cmdline using maven
 1) cd to project folder where pom.xml is
 2) mvn clean
 3) mvn install 
-4) mvn  exec:java -Dexec.args="path-to-ratings-matrix path-to-item-item(if content based recs)" 
+4) mvn  exec:java -Dexec.args="path-to-ratings-matrix path-to-books-metadata path-to-input-file-with-book-ids path-to-item-item(if content based recs)" 
