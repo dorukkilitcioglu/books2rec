@@ -47,7 +47,7 @@ We also provide more 'traditional' recommendations that only use the book's feat
 <div style="margin: 0 auto;max-width: 700px;text-align: center;">
     <figure>
         <img src='data/images/books2rec-charlie.png' alt='Example of Books2Rec recommendation'/>
-        <figcaption><i>Example of our recommendations based on pure book metadata features. Notice how it picks up on all the other books from the author despite `author` not being a feature we included in our model.</i></figcaption>
+        <figcaption><i>Example of our recommendations based on pure book metadata features. Notice how it picks up on all the other books from the author despite <code>author</code> not being a feature we included in our model.</i></figcaption>
     </figure>
 </div>
 
