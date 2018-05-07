@@ -1,0 +1,124 @@
+<html>
+{% include 'components/head.html' %}
+<body>
+    {% include 'components/header.html' %}
+    <article>
+        <div class="container">
+            <div class="response">
+                <h2>Choose from multiple ways to get recommendations below</h2>
+            </div>
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Give me recommendations based on my Goodreads profile</a>
+                        </h3>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="input_container">
+                            <p>
+                                With this option, we will recommend you books taking into account all the books you have rated. Using Machine Learning,
+                                we map your user profile to a trained model that has learned insights about how books are similar to each. This model was
+                                trained using over 6 million ratings.  
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="text_box" name="text" placeholder="Goodreads Username or ID">
+                                <button class="button has-spinner" type="submit" name='user_recs' value="Get Recommendations">
+                                    Get Recommendations
+                                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                                </button>
+                            </form>
+                            <p><strong>Note:</strong> Enter the username you setup for your Goodreads account in the <a href="{{ url_for('setup') }}">Setup Guide</a></p>
+                            <p>Please allow for loading time of up to 5 seconds per 100 books you've rated</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">I just want recommendations based on a book I like</a>
+                        </h3>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="input_container">
+                            <p>
+                                This option maps a specific book to the learned concepts that our Machine Learning model extracted. Using over 6 million ratings,
+                                our model learns concept spaces based on the ratings of hundreds of thousands of users. It then weights the top books recommended 
+                                by these concepts by its features to give a nice balance of recommendations. 
+                            </p>
+                            <form class="form" method="POST">
+                                <select class="js-example-basic-single" name="books">
+                                    <option value="">Enter a Title</option>
+                                    {% for title in titles %}
+                                    <option value="{{title}}">{{title}}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                <input class="button" type="submit" name='book_recs' value="Get Recommendations">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">I just want books that are similar to a book I like</a>
+                        </h3>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="input_container">
+                            <p>
+                                This option simply finds the most similar books based on book description, user tags, genres, and the shelves the book has
+                                been place on in Goodreads. This doesn't take into account how books are related based on user ratings. 
+                            </p>
+                            <form class="form" method="POST">
+                                <select class="js-example-basic-single" name="books">
+                                    <option value="">Enter a Title</option>
+                                    {% for title in titles %}
+                                    <option value="{{title}}">{{title}}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                <input class="button" type="submit" name='book_similar' value="Get Similar Books">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">I am indecisive, just show me the most popular books</a>
+                        </h3>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="input_container">
+                            <p>
+                                Returns the top 99 most popular books according to Goodreads 'most-read'
+                            </p>
+                            <form class="form" method="POST">
+                                <input class="button" type="submit" name='most_popular' value="Get Most Popular">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="response">
+            <h2>{{response}}</h2>
+        </div>
+        <div class="col">
+            <!-- you can iterate on a list to add many items -->
+            {% for chunk in toPass %}
+            <div class="row">
+                {% for book in chunk %}
+                <div class="col-sm-4">
+                    {% include 'components/book.html' %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </article>
+    {% include 'components/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+name: recs
+channels:
+  - defaults
+dependencies:
+  - asn1crypto=0.24.0=py36_0
+  - ca-certificates=2018.03.07=0
+  - certifi=2018.4.16=py36_0
+  - cffi=1.11.5=py36h9745a5d_0
+  - chardet=3.0.4=py36h0f667ec_1
+  - click=6.7=py36h5253387_0
+  - cryptography=2.2.2=py36h14c3975_0
+  - flask=0.12.2=py36hb24657c_0
+  - gunicorn=19.7.1=py36h38c4014_0
+  - idna=2.6=py36h82fb2a8_1
+  - intel-openmp=2018.0.0=8
+  - itsdangerous=0.24=py36h93cc618_1
+  - jinja2=2.10=py36ha16c418_0
+  - libedit=3.1=heed3624_0
+  - libffi=3.2.1=hd88cf55_4
+  - libgcc-ng=7.2.0=hdf63c60_3
+  - libgfortran-ng=7.2.0=hdf63c60_3
+  - libstdcxx-ng=7.2.0=hdf63c60_3
+  - markupsafe=1.0=py36hd9260cd_1
+  - mkl=2018.0.2=1
+  - mkl_fft=1.0.1=py36h3010b51_0
+  - mkl_random=1.0.1=py36h629b387_0
+  - ncurses=6.0=h9df7e31_2
+  - numpy=1.14.2=py36hdbf6ddf_1
+  - openssl=1.0.2o=h20670df_0
+  - pandas=0.22.0=py36hf484d3e_0
+  - pip=10.0.1=py36_0
+  - pycparser=2.18=py36hf9f622e_1
+  - pyopenssl=17.5.0=py36h20ba746_0
+  - pysocks=1.6.8=py36_0
+  - python=3.6.5=hc3d631a_2
+  - python-dateutil=2.7.2=py36_0
+  - pytz=2018.4=py36_0
+  - readline=7.0=ha6073c6_4
+  - requests=2.18.4=py36he2e5f8d_1
+  - scikit-learn=0.19.1=py36h7aa7ec6_0
+  - scipy=1.0.1=py36hfc37229_0
+  - setuptools=39.1.0=py36_0
+  - six=1.11.0=py36h372c433_1
+  - sqlite=3.23.1=he433501_0
+  - tk=8.6.7=hc745277_3
+  - urllib3=1.22=py36hbe7ace6_0
+  - werkzeug=0.14.1=py36_0
+  - wheel=0.31.0=py36_0
+  - xz=5.2.3=h5e939de_4
+  - zlib=1.2.11=ha838bed_2
+prefix: /home/recsflask/miniconda3/envs/recs
+

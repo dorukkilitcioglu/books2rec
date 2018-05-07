@@ -21,7 +21,7 @@
             <configuration>
                 <mainClass>bookrecommender.RecommendationMain</mainClass>
             </configuration>
-        </plugin>
+      </plugin>
     </plugins>
   </build>
   <dependencies>

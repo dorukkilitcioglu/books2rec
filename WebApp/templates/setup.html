@@ -1,0 +1,81 @@
+<html>
+{% include 'components/head.html' %}
+<body>
+    {% include 'components/header.html' %}
+    <article>
+        <div class="setup">
+            <div class="setup_item">
+                <h2>Step 1: Navigate to <a style="color: #337ab7" href="https://www.goodreads.com/">Goodreads.com</a> and hit 'Sign up'</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/signup.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 2: Sign up with whatever option you want</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/signup_options.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 3: Skip the Find Friends step</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/findfriends.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 4: Skip the Reading Goal step</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/challenge.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 5: Select at least one genre you like</h2>
+                <p>This will NOT affect recommendations from our site, only Goodreads</p>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/genres.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 6: Rate some books!</h2>
+                <p>You only need a single rating to use our site so you don't need 20. 
+                    The more books you rate however, the better the recommendations</p>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/rate.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 7: Hit `I'm finished rating' once your are done</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/rate_done.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 8: Go to your profile</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/profile.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 9: Hit Profile button</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/profile_button.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 10: Edit your profile</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/edit_profile.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 11: Set your username. This step is CRITICAL in order to use our website</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/username.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 12: Head to Settings</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/settings.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 13: Make sure your profile is viewable by anyone</h2>
+                <p>This should be set be default</p>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/privacy.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 14: Save changes</h2>
+                <img border="0" class="img-fluid" src="{{ url_for('static',filename='images/setup/save.png') }}"/>
+            </div>
+            <div class="setup_item">
+                <h2>Step 15: Get some recommendations!</h2>
+                <form class="form" method="POST">
+                    <button class="button has-spinner" type="submit" name='load' value="Load Books!">
+                        Load Books!
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </article>
+    {% include 'components/footer.html' %}
+</body>
+</html>
+

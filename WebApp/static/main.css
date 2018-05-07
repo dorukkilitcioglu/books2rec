@@ -1,0 +1,301 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+article {
+    width: 100%;
+    flex: 1 0 auto;
+}
+.jumbotron {
+    background-color: #292c2f;
+    color: white;
+}
+.jumbo_header {
+    padding-left: 25px;
+}
+.setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+.setup_item {
+    width: 90%;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+.setup img{
+    width: 50%;
+}
+#book_rec, #book_sim {
+    width: 33vw;
+}
+.button {
+    display: inline-block;
+    width: 66%;
+    padding: 5px 15px;
+    font-size: 2vmin;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #292c2f;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 3px 3px #999;
+}
+.button:hover {background-color: #666}
+.button:active {
+    background-color: #292c2f;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50vmin;
+    margin-top: 20px;
+}
+.text_box {
+    width: 100%;
+    margin: 5px;
+    font-size: 2vmin;
+    text-align: center;
+}
+.input_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    padding: 15px;
+}
+.book_list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.book_container {
+    height: 33vh;
+    max-width: 50vh;
+    margin: 20px;
+    border-style: solid;
+    border-color: #292c2f;
+    border-width: 2px;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.book_row {
+    height: 90%;
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.book_cover{
+    display: inline-block;
+    flex-basis: 100%;
+    width: 50%;
+    height: 100%;
+}
+.book_cover img {
+    width:100%;
+    height:100%;
+    object-fit: contain;
+    overflow: hidden;
+}
+.book_rank {
+    height: 10%;
+    width: 100%;
+    padding-left: 10px;
+    background-color: #292c2f;
+
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+
+    font-size: 1.5vh;
+}
+.book_info {
+    flex-basis: 100%;
+
+    height: 100%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    font-size: 1.5vmin;
+}
+.response {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;  
+}
+h1 {
+    font-size: 5vmin;
+}
+h1 a {
+    color: white;
+}
+h1 a:hover {
+    color: #666;
+}
+h4 {
+    font-size: 2.5vmin;
+}
+h2 {
+    font-size: 3.5vmin;
+}
+h3 a{
+    font-size: 2.5vmin;
+}
+p {
+    margin: 0;
+    font-size: 2vmin;
+}
+.book_info p {
+    margin: 5px;
+}
+
+.start_page {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+}
+
+.spinner {
+    display: inline-block;
+    opacity: 0;
+    max-width: 0;
+    -webkit-transition: opacity 0.25s, max-width 0.45s;
+    -moz-transition: opacity 0.25s, max-width 0.45s;
+    -o-transition: opacity 0.25s, max-width 0.45s;
+    transition: opacity 0.25s, max-width 0.45s;
+    /* Duration fixed since we animate additional hidden width */
+}
+
+.has-spinner.active {
+    cursor: progress;
+}
+
+.has-spinner.active .spinner {
+    opacity: 1;
+    max-width: 50px;
+    /* More than it will ever come, notice that this affects on animation duration */
+}
+
+.tooltip-inner {
+    max-width: 25vw;
+    /* If max-width does not work, try using width instead */
+    width: 350px; 
+}
+
+.js-example-basic-single {
+    width: 50%;
+}
+
+
+
+/*
+
+FOOTER
+
+*/
+footer {
+    flex-shrink: 0;
+
+    background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    height: 20%;
+	font: normal 16px sans-serif;
+}
+
+footer p {
+    color: white;
+    margin: 5px;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer_row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer_col {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding: 25px;
+}
+
+.footer_col_middle {
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.footer_col_left {
+    flex-direction: column;
+    justify-content: center;
+    align-content: left;
+    align-items: left;
+}
+
+.footer_col_right {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: center;
+    align-items: center;
+}
+
+.footer_image {
+    width: 10vmin;
+}
+
+.footer_icon {
+    color: #fff;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 3vmin;
+}

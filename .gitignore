@@ -1,3 +1,9 @@
 data/goodbooks-10k/
 **/target/
 **/*.class
+data/amazon/
+.ipynb_checkpoints/
+__pycache__/
+.tmp/
+secret.py
+logs/

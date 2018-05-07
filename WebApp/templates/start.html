@@ -1,0 +1,28 @@
+<html>
+{% include 'components/head.html' %}
+<body>
+    {% include 'components/header.html' %}
+    <article>
+        <div class="container">
+            <div class="start_page">
+                <h1>Looking for a new book to read? You've come to the right place.</h1>
+                <h4>
+                    For the best experience, follow our 2-Minute Goodreads Account <a href="{{ url_for('setup') }}">Setup Guide</a>
+                </h4>
+                <p>Even if you already have an account, please double check steps 10-15</p>
+                <br>
+                <h4>All set up? Perfect, let's get started</h4>
+                <form class="form" method="POST">
+                    <button class="button has-spinner" type="submit" name='load' value="Load Books!">
+                        Load Books!
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    </button>
+                </form>
+                <p>Allow for up to 5 seconds to load all the data</p>
+            </div>
+        </div>
+    </article>
+    {% include 'components/footer.html' %}
+</body>
+</html>
+
