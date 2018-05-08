@@ -6,8 +6,12 @@ body {
     flex-direction: column;
 }
 article {
-    width: 100%;
     flex: 1 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
 }
 .jumbotron {
     background-color: #292c2f;
@@ -89,13 +93,13 @@ article {
     padding: 15px;
 }
 .book_list {
-    width: 100%;
+    width: 95%;
+
     display: flex;
     flex-direction: column;
 }
 .book_container {
     height: 33vh;
-    max-width: 50vh;
     margin: 20px;
     border-style: solid;
     border-color: #292c2f;
@@ -155,6 +159,7 @@ article {
     font-size: 1.5vmin;
 }
 .response {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-content: center;
