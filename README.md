@@ -59,7 +59,31 @@ Our hybrid system uses both of these approaches. Our item similarities are a com
 Powering our recommendations is the Netflix-prize winner SVD algorithm. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
 
 ### Evaluation Metrics
+As with all Machine Learning based projects, you want to make sure what you have used is 'better' than other popular methods. As stated before, we used RMSE to evaluate the performance of our trained Latent Factor (SVD) model. Below are the RMSE for several algorithms we calculated while building this project.
+
 There are two widely used metrics in recommender systems that we also use. The **Mean Squared Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousin, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
+
+| Approach | Params | Data | RMSE |
+| -------- | -------- | -------- | -------- |
+| User k-NN  | k=80                     | Goodreads (subset 20%)  | 0.864  |
+| User k-NN  | NA                       | Full (Goodreads + Amazon)  | 0.8875662310051954 |
+| Item k-NN  | NA                       | Full (Goodreads + Amazon)  | 0.8876182681047732 |
+| **SVD**      | factors=300, epochs=100  | Full (Goodreads + Amazon)  | **0.842684489142339**  |
+| SVD        | factors=10, epochs=50    | Full (Goodreads + Amazon)  | 0.844118472532902  |
+| SVD        | factors=1000, epochs=20  | Full (Goodreads + Amazon)  | 0.8627727919676756 |
+
+**Note**: Not all results from HPC grid search are shown here, only the top model from each batch (small params, large params, medium params)
+
+Our final model uses the SVD with 300 factors trained with 100 epochs. Overall, the lower factor models consistently had the best performance versus the very high factor models, however this middle ground (300 factors, 100 epochs) was the absolute best result from our grid search. We also subjectively liked the recommendations it gave for test users more than the very small factor model. This is because with only 10 factors, the model is very generalized. While this might provide small error for rating predictions, the recommendations it gave seemed to make no sense. 
+
+### Why Hybrid?
+Why would we not just use one, hyper-optimized Latent Factor (SVD) Model instead of combining it with a Content Based model?
+
+The answer is simply a pure SVD model can lead to very nonsensical, 'black box' recommendations that can turn away users. A trained SVD model is simply trying to assign factor strenghts in a matrix for each item in order to minimize some cost function. This cost function is simply trying to minimize the error of predicting hidden ratings in a test set. What this leads to is a very optimized model that, when finally used to make recommendations for new users, can spit out very **subjectively** strange recommendations. 
+
+For example, say there is some book A that after being run through a trained SVD model, is most similar in terms of ratings as a book B. The issue is that book B can be completely unrelated to A by 'traditional' standards (what the book is about, the genre, etc). What this can lead to is a book like Lord of the Rings Return of the King ending up being most 'similar' to a completely unrelated book like Sisterhood of Traveling Pants (yes this happened). This is because it could just be the case that these two books happen to always be rated similarly by users and thus, the SVD model learns to always recommend these books together because it will minimize it's error function. However, if you ask most fantasy readers, they would probably prefer to be recommended more fantasy books (but not just all other books by Tolkien).
+
+What this leads to is trying to find a balance between exploration (using SVD to recommend books that are similar only in how they are rated by tens of thousands of users) and understandable recommendations (using Content features to recommend other fantasy books if the user has enjoyed the Lord of the Rings books). To solve this issues, we combine the trained SVD matrix with the feature matrix. By doing this, when we map a user to this matrix, the user is mapped to all the hidden concept spaces SVD has learned. Then all the books that model returns are then weighted by how similar they are to the features of the books that the user has highly rated. By doing this, you will get recommendations that are not purely within the same genre that you enjoy, but also not completely oblivious to the types of books you like. 
 
 ## Project Structure
 As heavily encouraged by our advisor, Dr. Anasse Bari, we have tried a lot of different technologies in our quest to make a book recommender system. As such, we have multiple different mini-projects in this repo. These are mostly contained into individual folders.
