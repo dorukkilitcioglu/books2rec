@@ -118,3 +118,5 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## References
 1. http://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers
+2. [R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016](https://arxiv.org/abs/1602.01585)
+3. [J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015](https://arxiv.org/abs/1506.04757)
