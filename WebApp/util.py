@@ -13,8 +13,9 @@ from collections import defaultdict
 # Custom libraries
 import secret # need to make this and add goodreads_api key
 
-not_found_error_message = "I can't seem to find anything with what you gave me, I'm sorry"
+not_found_error_message = "That username doesn't seem to exist on Goodreads, I'm sorry"
 private_error_message = "This user account is private, I'm sorry"
+no_ratings_error_message = "You don't have any ratings on the books we have access to, I'm sorry"
 
 def get_id_from_username(username, api_key):
     response = requests.get('https://www.goodreads.com/user/show/?key='+api_key+'&username='+username+'&format=xml')
@@ -51,6 +52,7 @@ def get_user_vector(user_input, books, mapper):
             return None, not_found_error_message
 
         page = 1
+        total_valid_reviews = 0
         while True:
             response = requests.get('https://www.goodreads.com/review/list/?v=2&id='+user_id+'&shelf=read&format=xml&key='+api_key+'&per_page=200&page=' + str(page))
             tree = ElementTree.fromstring(response.content)
@@ -63,11 +65,16 @@ def get_user_vector(user_input, books, mapper):
                     book_id = int(mapper[goodreads_book_id])
                     rating = int(review.find('rating').text)
                     q[book_id-1] = float(rating)
+                    total_valid_reviews += 1
             page += 1
-            
+
             print(len(reviews))
             if len(reviews) < 1:
                 break
+
+        print("total valid reviews: %s" % (total_valid_reviews))
+        if total_valid_reviews < 1:
+            return None, no_ratings_error_message
 
         for i in range(len(q)):
             if q[i] != 0:

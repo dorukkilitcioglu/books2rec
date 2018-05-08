@@ -222,9 +222,9 @@ p {
 }
 
 .tooltip-inner {
-    max-width: 25vw;
+    max-width: 350px;
     /* If max-width does not work, try using width instead */
-    width: 350px; 
+    width: 350px;
 }
 
 .js-example-basic-single {

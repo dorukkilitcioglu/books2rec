@@ -44,7 +44,7 @@
                             <p>
                                 This option maps a specific book to the learned concepts that our Machine Learning model extracted. Using over 6 million ratings,
                                 our model learns concept spaces based on the ratings of tens of thousands of users. It then weights the top books recommended 
-                                by these concepts by its features to give a nice balance of recommendations. 
+                                by these concepts by its features to give a nice balance of recommendations. Pick from the top 10,000 most popular books on Goodreads.
                             </p>
                             <form class="form" method="POST">
                                 <select class="js-example-basic-single" name="books">
@@ -56,6 +56,7 @@
                                 <br>
                                 <input class="button" type="submit" name='book_recs' value="Get Recommendations">
                             </form>
+                            <p><strong>Note:</strong> Please allow up to 5 seconds for us to register your selecion in the search bar</p>
                         </div>
                     </div>
                 </div>
@@ -69,7 +70,7 @@
                         <div class="input_container">
                             <p>
                                 This option simply finds the most similar books based on book description, user tags, genres, and the shelves the book has
-                                been placed on in Goodreads. This doesn't take into account how books are related based on user ratings. 
+                                been placed on in Goodreads. This doesn't take into account how books are related based on user ratings. Pick from the top 10,000 most popular books on Goodreads. 
                             </p>
                             <form class="form" method="POST">
                                 <select class="js-example-basic-single" name="books">
@@ -81,6 +82,7 @@
                                 <br>
                                 <input class="button" type="submit" name='book_similar' value="Get Similar Books">
                             </form>
+                            <p><strong>Note:</strong> Please allow up to 5 seconds for us to register your selecion in the search bar</p>
                         </div>
                     </div>
                 </div>
