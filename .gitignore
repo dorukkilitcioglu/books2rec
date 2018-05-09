@@ -7,3 +7,5 @@ __pycache__/
 .tmp/
 secret.py
 logs/
+*.sublime-workspace
+*.sublime-project
