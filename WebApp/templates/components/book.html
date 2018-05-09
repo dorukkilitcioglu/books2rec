@@ -1,6 +1,10 @@
 <div class="book_container">
     <div class="book_rank">
         <p style="color: white">Rank: {{book['rank']}}</p>
+        <form class="form_small" method="POST">
+            <input class="hidden" name="books" value="{{book['title']}}">
+            <input class="button_small" type="submit" name='book_similar' value="Similar Books">
+        </form>
     </div>
     <div class="book_row">
         <div class="book_cover" >
