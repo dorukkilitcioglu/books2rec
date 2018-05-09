@@ -71,8 +71,9 @@ There are two widely used metrics in recommender systems that we also use. The *
 | **SVD**      | factors=300, epochs=100  | Full (Goodreads + Amazon)  | **0.842684489142339**  |
 | SVD        | factors=10, epochs=50    | Full (Goodreads + Amazon)  | 0.844118472532902  |
 | SVD        | factors=1000, epochs=20  | Full (Goodreads + Amazon)  | 0.8627727919676756 |
+| Autoencoder | X-300-200-300-X | Full (Goodreads + Amazon) | 0.893 |
 
-**Note**: Not all results from HPC grid search are shown here, only the top model from each batch (small params, large params, medium params)
+**Note**: Not all results from HPC grid search are shown here, only the top model from each batch (small params, large params, medium params). The Autoencoder results are highly experimental and need further hyperparameter optimization.
 
 Our final model uses the SVD with 300 factors trained with 100 epochs. Overall, the lower factor models consistently had the best performance versus the very high factor models, however this middle ground (300 factors, 100 epochs) was the absolute best result from our grid search. We also subjectively liked the recommendations it gave for test users more than the very small factor model. This is because with only 10 factors, the model is very generalized. While this might provide small error for rating predictions, the recommendations it gave seemed to make no sense. 
 
