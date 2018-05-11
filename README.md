@@ -58,6 +58,11 @@ Our hybrid system uses both of these approaches. Our item similarities are a com
 
 Powering our recommendations is the Netflix-prize winner SVD algorithm. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
 
+### SVD for Ratings Matrix
+What makes the SVD algorithm made famous during the Netflix challenge different than standard SVD is that it does **NOT** assume missing values are 0. Standard SVD is a perfect reconstruction of a matrix but has one flaw for our purposes: if a user has not rated a book (which is going to most books), then SVD would model them as having a 0 rating for all missing books. 
+
+In order to use SVD for rating predictions, you have to update the values in the matrix to negate this effect. You can use Gradient Descent on the error function of predicted ratings to accomplish this. Once you run Gradient Descent enough times, every value in the decomposed matrix begins to better reflect the correct values for predicting missing ratings, and not for reconstructing the matrix. 
+
 ### Evaluation Metrics
 As with all Machine Learning based projects, you want to make sure what you have used is 'better' than other popular methods. As stated before, we used RMSE to evaluate the performance of our trained Latent Factor (SVD) model. Below are the RMSE for several algorithms we calculated while building this project.
 
