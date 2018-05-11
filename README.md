@@ -136,7 +136,7 @@ A version of the pipeline that uses Deep Learning to generate recommendations ca
 
 ### Web App
 Our web application is powered by [Flask](http://flask.pocoo.org/), the easy to use Python web framework. As mentioned above, our website is [live](https://books2rec.me/) for you to test your recommendations with. The code that powers it can be found under the [WebApp](WebApp/) folder.
-<img src="data/images/books2rec-start.png" alt="Books2Rec Start Screenshot" width="80%">
+<img src="data/images/books2rec-start.png" alt="Books2Rec Start Screenshot" width="50%">
 
 ### Tools Used
 - **Surprise**: See [Surprise](#surprise)
