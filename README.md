@@ -16,6 +16,7 @@
   - [Surprise](#surprise)
   - [Recommendation Pipeline](#recommendation-pipeline)
   - [Web App](#web-app)
+  - [Tools Used](#tools-used)
 - [Contributing](#contributing)
 - [Authors](#authors)
 - [Acknowledgements](#acknowledgements)
@@ -56,10 +57,10 @@ We use a hybrid recommender system to power our recommendations. Hybrid systems 
 
 Our hybrid system uses both of these approaches. Our item similarities are a combination of user ratings and features derived from books themselves.
 
-Powering our recommendations is the Netflix-prize winner SVD algorithm. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
+Powering our recommendations is the Netflix-prize winner SVD algorithm<sup>[2]</sup>. It is, without doubt, one of the most monumental algorithms in the history of recommender systems. Over time, we are aiming to improve our recommendations using the latest trends in recommender systems.
 
 ### SVD for Ratings Matrix
-What makes the SVD algorithm made famous during the Netflix challenge different than standard SVD is that it does **NOT** assume missing values are 0. Standard SVD is a perfect reconstruction of a matrix but has one flaw for our purposes: if a user has not rated a book (which is going to most books), then SVD would model them as having a 0 rating for all missing books. 
+What makes the SVD algorithm made famous during the Netflix challenge different than standard SVD is that it does **NOT** assume missing values are 0<sup>[3]</sup>. Standard SVD is a perfect reconstruction of a matrix but has one flaw for our purposes: if a user has not rated a book (which is going to most books), then SVD would model them as having a 0 rating for all missing books. 
 
 In order to use SVD for rating predictions, you have to update the values in the matrix to negate this effect. You can use Gradient Descent on the error function of predicted ratings to accomplish this. Once you run Gradient Descent enough times, every value in the decomposed matrix begins to better reflect the correct values for predicting missing ratings, and not for reconstructing the matrix. 
 
@@ -78,7 +79,8 @@ There are two widely used metrics in recommender systems that we also use. The *
 | SVD        | factors=1000, epochs=20  | Full (Goodreads + Amazon)  | 0.8627727919676756 |
 | Autoencoder | X-300-200-300-X | Full (Goodreads + Amazon) | 0.893 |
 
-**Note**: Not all results from HPC grid search are shown here, only the top model from each batch (small params, large params, medium params). The Autoencoder results are highly experimental and need further hyperparameter optimization.
+**Note**: Not all results from HPC grid search are shown here, only the top model from each batch (small params, large params, medium params). 
+**Note**: The Autoencoder (inspired by this paper<sup>[4]</sup>) results are highly experimental and need further hyperparameter optimization.
 
 Our final model uses the SVD with 300 factors trained with 100 epochs. Overall, the lower factor models consistently had the best performance versus the very high factor models, however this middle ground (300 factors, 100 epochs) was the absolute best result from our grid search. We also subjectively liked the recommendations it gave for test users more than the very small factor model. This is because with only 10 factors, the model is very generalized. While this might provide small error for rating predictions, the recommendations it gave seemed to make no sense. 
 
@@ -99,7 +101,7 @@ As heavily encouraged by our advisor, Dr. Anasse Bari, we have tried a lot of di
 Download the Goodreads data from [goodbooks-10k repository](https://github.com/zygmuntz/goodbooks-10k), extract it, and place it under the `data` folder (so that the `ratings.csv` file would be at `data/goodbooks-10k/ratings.csv`). You might also want to extract the `books_xml.zip` to see and use the full xml documents.
 
 #### Amazon Ratings
-The Amazon ratings were kindly provided by [Jure Leskovec](https://snap.stanford.edu/data/web-Amazon.html) and [Julian McAuley](http://jmcauley.ucsd.edu/data/amazon/). We used the subset of the book ratings that matched the Goodbooks 10k dataset.
+The Amazon ratings were kindly provided by [Jure Leskovec](https://snap.stanford.edu/data/web-Amazon.html) and [Julian McAuley](http://jmcauley.ucsd.edu/data/amazon/)<sup>[5]</sup><sup>[6]</sup>. We used the subset of the book ratings that matched the Goodbooks 10k dataset.
 
 #### Data Preprocessing
 Data preprocessing is one of the (if not _the_) most significant part of any Data Science project. The most difficult part of our data preprocessing was joining the Goodreads data and the Amazon ratings together. The Amazon ratings were attached an Amazon Standard Identification Number (ASIN), but not an ISBN. We mapped the ASIN to book titles, the Goodreads book ids to book titles, and did a hash-join on the two title sets to join both sets of ratings together. This step can be found under the [Preprocessing](Preprocessing/) folder.
@@ -134,6 +136,24 @@ A version of the pipeline that uses Deep Learning to generate recommendations ca
 
 ### Web App
 Our web application is powered by [Flask](http://flask.pocoo.org/), the easy to use Python web framework. As mentioned above, our website is [live](https://books2rec.me/) for you to test your recommendations with. The code that powers it can be found under the [WebApp](WebApp/) folder.
+<img src="data/images/books2rec-start.png" alt="Books2Rec Start Screenshot" width="80%">
+
+### Tools Used
+- **Surprise**: See [Surprise](#surprise)
+- **Rapidminer**: See See [RapidMiner](#rapidminer)
+- **RStudio**: We used RStudio for Data Understanding visualizations
+- **Jupyter Notebook**: For testing all aspects of the Project Lifecycle. Code was moved to a general Util API folder once deemed useful
+- **Python**: The language of choice for the project and the web app
+- **Pandas**: Used to store books with all their metadata and also to store the user-item ratings
+- **Hadoop (on HPC Dumbo)**: Used to get baseline metrics for collaborative filtering. Precomputation of item-item similarity matrix using large item-feature matrix on spark. This is used as input to content-based recommendation model in Mahout.
+- **HPC (NYU Prince)**: There are multiple hyperparameters one can use for training the SVD model. We used Grid Search on the hyperparameter space in order to find the best hyperparameters, with the help of NYU High Performance Computing. The code for that can be found in the HPC folder.
+- **Mahout**: See [Mahout](#mahout)
+- **Eclipse**: We used Eclipse to build and run the Mahout project as Java Desktop application.
+- **Scikit-learn**: We used Scikit-learn to run our vanilla SVD on item features.
+- **Scipy**: Used for efficiently storing sparse matrices (ratings matrices are extremely sparse)
+- **Tensorflow**: We used Tensorflow to test our Autoencoder, which was used to generate representations of items similar to how SVD on the item features work. Unfortunately, there are a lot of different hyperparameters to optimize with Deep Neural Networks, and we made better use of our time by focusing on the web app than the Autoencoder.
+- **Flask**: See [Web App](#web-app)
+- **Digital Ocean**: Our web application is hosted on a DO server. We selected 1gb of memory as to be a lightweight deployment
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
@@ -148,5 +168,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## References
 1. http://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers
-2. [R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016](https://arxiv.org/abs/1602.01585)
-3. [J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015](https://arxiv.org/abs/1506.04757)
+2. [The BellKor Solution to the Netflix Grand Prize](https://www.netflixprize.com/assets/GrandPrize2009_BPC_BellKor.pdf)
+3. [Generalized Hebbian Algorithm for Incremental Latent Semantic Analysis](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.125.8971&rep=rep1&type=pdf)
+4. [Hybrid Recommender System based on Autoencoders](https://arxiv.org/pdf/1606.07659.pdf)
+5. [R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016](https://arxiv.org/abs/1602.01585)
+6. [J. McAuley, C. Targett, J. Shi, A. van den Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015](https://arxiv.org/abs/1506.04757)
