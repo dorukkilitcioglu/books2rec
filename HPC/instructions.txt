@@ -7,7 +7,7 @@ RUNNING:
 1. module load anaconda3/4.3.1 cuda/9.0.176 cudnn/9.0v7.0.5
 2. conda create -n svd python=3.6
 3. source activate svd
-4. pip install pandas scikit-surprise
+4. pip install pandas scikit-surprise tabulate
 5. sbatch grid_search.bh
 6. Results of printing will be saved progressively a 'slurm' file. 
 It will be named the same as the job number you are assigned by HPC
