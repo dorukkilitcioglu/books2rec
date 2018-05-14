@@ -139,9 +139,23 @@ class BookEncoder:
                 print('Loss: {0:4.7f}'.format(l))
 
     def test(self, session, original_ratings, held_out_ratings, item_vecs, user_indices, item_indices):
-        reprs = self.encode(session, item_vecs)
-        sim = (cosine_similarity(reprs) + 1) / 2
-        return evaluate(original_ratings, held_out_ratings, sim, user_indices, item_indices)
+        held_outs = original_ratings[(user_indices, item_indices)]
+        predictions = []
+        for u, i in zip(user_indices, item_indices):
+            user_arr = np.asarray(held_out_ratings[u,:].todense())[0]
+            item_arr = item_vecs[i,:]
+            feed_dict = {
+                self.single_user: user_arr.reshape((1,-1)),
+                self.items: item_arr.reshape((-1,item_arr.shape[0])),
+            }
+            pred_rating = session.run([self.pred_ratings], feed_dict=feed_dict)
+            predictions.append(pred_rating[0][0][0])
+        print(len(predictions))
+        print(predictions[0])
+        predictions = np.array(predictions)
+        rmse_ = rmse(held_outs, predictions)
+        mae_ = mae(held_outs, predictions)
+        return rmse_, mae_
 
 
 def initialize_directories():
@@ -174,9 +188,9 @@ def main(ratings_components=300, features_components=300, print_scores=False):
         with tf.Session() as sess:
             encoder.initialize(sess)
             encoder.train(sess, X, items)
-            # scores[i, :] = encoder.test(sess, spr, X, items, user_indices, item_indices)
-            # if print_scores:
-            #     print_evaluation(scores[i, 0], scores[i, 1])
+            scores[i, :] = encoder.test(sess, spr, X, items, user_indices, item_indices)
+            if print_scores:
+                print_evaluation(scores[i, 0], scores[i, 1])
 
     scores = np.mean(scores, axis=0)
     if print_scores:
