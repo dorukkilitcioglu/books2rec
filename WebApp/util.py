@@ -41,7 +41,7 @@ def get_user_vector(user_input, books, mapper):
         print('found user_vector...')
         return q, None
     except:
-        q = np.zeros((10000), dtype = np.int)
+        q = np.zeros((10000), dtype = np.float)
         api_key = secret.API_KEY
         if not user_input.isdigit():
             user_id = get_id_from_username(user_input, api_key)
@@ -76,27 +76,31 @@ def get_user_vector(user_input, books, mapper):
         if total_valid_reviews < 1:
             return None, no_ratings_error_message
 
-        for i in range(len(q)):
-            if q[i] != 0:
-                title = books.iloc[i]['title']
-                print("%s --> %s" % (q[i], title))
-        
-        # Turn 1-5 rating scale into negative - positive scale
-        # Because 5's and 1's are so rare, our scale is exponential
-        # 1 -> -e^3
-        # 2 -> -e^2
-        # 3 -> e^0
-        # 4 -> e^2
-        # 5 -> e^3
-        ratings_mapper = {0:0, 1:-20, 2:-7, 3:1, 4:7, 5:20}
-        for i in range(len(q)):
-            q[i] = ratings_mapper[q[i]]
+        q = feature_scaling(q)
 
         # Disable this until we find a 'smart' caching solution
         # print('saving user_vector...')
         # scipy.sparse.save_npz('static/data/cached_users/user_'+user_input+'.npz', scipy.sparse.csr_matrix(q))
 
         return q, None
+
+def feature_scaling(q):
+    # calculate mean and std of user's existing ratings
+    ratings = []
+    for r in q:
+        if r != 0:
+            ratings.append(r)
+    ratings = np.array(ratings)
+    mean = np.mean(ratings)
+    std = np.std(ratings)
+    print('Mean: %s' % (mean))
+    print('S.D: %s' % (std))
+
+    # scale the original ratings in q
+    for i in range(len(q)):
+        if q[i] != 0:
+            q[i] = (1.0 + q[i] - mean) / std
+    return q
 
 '''
 
