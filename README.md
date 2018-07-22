@@ -71,9 +71,13 @@ There are two widely used metrics in recommender systems that we also use. The *
 
 | Approach | Params | Data | RMSE |
 | -------- | -------- | -------- | -------- |
-| User k-NN  | k=80                     | Goodreads (subset 20%)  | 0.864  |
+| Baseline (Item and User mean ratings with bias) | NA    | Full (Goodreads + Amazon)  | 0.865  |
+| Random        | NA    | Full (Goodreads + Amazon)  | 1.33  |
 | User k-NN  | NA                       | Full (Goodreads + Amazon)  | 0.8875662310051954 |
 | Item k-NN  | NA                       | Full (Goodreads + Amazon)  | 0.8876182681047732 |
+| Slope One        | NA    | Full (Goodreads + Amazon)  | 0.856  |
+| NMF        | NA    | Full (Goodreads + Amazon)  | 0.877  |
+| Co-Clustering        | NA    | Full (Goodreads + Amazon)  | 0.873  |
 | **SVD**      | factors=300, epochs=100  | Full (Goodreads + Amazon)  | **0.842684489142339**  |
 | SVD        | factors=10, epochs=50    | Full (Goodreads + Amazon)  | 0.844118472532902  |
 | SVD        | factors=1000, epochs=20  | Full (Goodreads + Amazon)  | 0.8627727919676756 |
