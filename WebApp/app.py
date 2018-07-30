@@ -72,7 +72,7 @@ def load_id_mapper():
 
 
 def load_item_matrix():
-    """ Loads in the item feature matrix """
+    """ Loads in the item to concept matrix """
     global item_matrix
     if item_matrix is None:
         item_matrix = np.load('static/data/item_matrix.npy')
