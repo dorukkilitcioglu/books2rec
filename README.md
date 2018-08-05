@@ -67,7 +67,7 @@ In order to use SVD for rating predictions, you have to update the values in the
 ### Evaluation Metrics
 As with all Machine Learning based projects, you want to make sure what you have used is 'better' than other popular methods. As stated before, we used RMSE to evaluate the performance of our trained Latent Factor (SVD) model. Below are the RMSE for several algorithms we calculated while building this project.
 
-There are two widely used metrics in recommender systems that we also use. The **Mean Squared Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousin, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
+There are two widely used metrics in recommender systems that we also use. The **Mean Averaged Error**, otherwise known as _MAE_, is the average difference between a predicted rating an the actual rating. Its close cousin, **Root Mean Squared Error** (otherwise known as _RMSE_) is still an average distance, but the difference between the predicted rating and the actual rating is squared, meaning that it is much more costly to miss something by a large margin than to miss something by a small margin.
 
 | Approach | Params | Data | RMSE |
 | -------- | -------- | -------- | -------- |
