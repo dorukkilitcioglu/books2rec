@@ -10,4 +10,4 @@ secret.py
 logs/
 *.sublime-workspace
 *.sublime-project
-.persist-desktop/
+.persistd/
