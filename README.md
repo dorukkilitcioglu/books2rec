@@ -2,7 +2,7 @@
 
 <img src="data/images/books2rec.png" alt="Books2Rec Screenshot" width="80%">
 
-[Books2Rec](https://books2rec.me/) is a book recommender system built for the Big Data Science class at NYU. Using your [Goodreads](https://www.goodreads.com/) profile, Books2Rec uses Machine Learning methods to provide you with highly personalized book recommendations. Don't have a Goodreads profile? We've got you covered - just search for your favorite book.
+[Books2Rec](https://books2rec.me/) is a recommender system built for book lovers. Using your [Goodreads](https://www.goodreads.com/) profile, Books2Rec uses Machine Learning methods to provide you with highly personalized book recommendations. Don't have a Goodreads profile? We've got you covered - just search for your favorite book.
 
 ### [Check it out here!](https://books2rec.me/)
 
