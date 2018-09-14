@@ -11,7 +11,6 @@
 - [How it Works](#how-it-works)
 - [Project Structure](#project-structure)
   - [Data Sources](#data-sources)
-  - [RapidMiner](#rapidminer)
   - [Mahout](#mahout)
   - [Surprise](#surprise)
   - [Recommendation Pipeline](#recommendation-pipeline)
@@ -118,11 +117,6 @@ The next step was generating the book features, which was done by constructing t
 
 After these steps, the data was clean enough to be server on the web server and converted into a numerical format that was able to be consumed by Machine Learning algorithms.
 
-### <a name="rapidminer"></a><img src="data/images/rapidminer-logo.png" alt="RapidMiner Logo" width="30%">
-[RapidMiner](https://rapidminer.com/) is a Data Science platform that allows for rapid prototyping of Machine Learning algorithms. We used RapidMiner to get a 'feel' for our data. It was great for quickly applying models and seeing their results, but it proved inflexible, and it could not handle more than 12000 users until there was a memory error or an array overflow. The RapidMiner `rmp` files that were used to generate the recommendations can be found in the [RapidMiner](RapidMiner/) folder. They were able to achieve a RMSE of 0.864 and a MAE of 0.685.
-
-![RapidMiner Item Recommendation Process](data/images/rapidminer.png "RapidMiner Item Recommendation Process")
-
 ### <a name="mahout"></a><img src="data/images/mahout-logo.svg" alt="Mahout Logo" width="30%">
 [Apache Mahout](https://mahout.apache.org/) is a distributed linear algebra framework that has a lot of built-in Machine Learning algorithms. Crucially for us, it implements a lot of the most common algorithms for recommender systems out of the box. We used Mahout's `ItemBasedRecommender` in order to generate item recommendations. We were able to achive a RMSE of 0.888. The Eclipse project that was used to generate recommendations can be found in the [Mahout/RecommenderSystem](Mahout/RecommenderSystem) folder.
 
@@ -144,7 +138,6 @@ Our web application is powered by [Flask](http://flask.pocoo.org/), the easy to 
 
 ### Tools Used
 - **Surprise**: See [Surprise](#surprise)
-- **Rapidminer**: See See [RapidMiner](#rapidminer)
 - **RStudio**: We used RStudio for Data Understanding visualizations
 - **Jupyter Notebook**: For testing all aspects of the Project Lifecycle. Code was moved to a general Util API folder once deemed useful
 - **Python**: The language of choice for the project and the web app
