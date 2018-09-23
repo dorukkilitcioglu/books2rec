@@ -1,4 +1,4 @@
-scikit-surprise=1.0.6
-jupyter=1.0.0
-pandas=0.23.4
-scikit-learn=0.19.2
+scikit-surprise==1.0.6
+jupyter==1.0.0
+pandas==0.23.4
+scikit-learn==0.19.2
