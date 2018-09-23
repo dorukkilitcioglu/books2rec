@@ -7,7 +7,7 @@ from math import ceil
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Custom libraries
-sys.path.append('../Util')
+sys.path.append('../../Util')
 from loader import get_book_dataframe, get_book_features
 from cross_validation import ColumnwiseKFold
 from reduction import get_sparse, reduce_matrix
