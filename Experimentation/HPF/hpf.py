@@ -4,7 +4,7 @@ import sys
 from hpfrec import HPF
 import numpy as np
 
-sys.path.append('Util')
+sys.path.append('../../Util')
 from joiner import get_ratings_pickle
 
 n_factors = 300
@@ -20,7 +20,7 @@ recommender = HPF(
     produce_dicts=True, keep_all_objs=True, sum_exp_trick=False
 )
 
-ratings = get_ratings_pickle('../data/goodbooks-10k/')
+ratings = get_ratings_pickle('../../data/goodbooks-10k/')
 
 recommender.fit(ratings)
 
