@@ -43,15 +43,15 @@ def map_user_to_features(p, features):
     return result.T
 
 
-def get_predictions(p, q, user_bias, item_bias, global_bias):
-    pred_ratings = np.zeros(len(q))
-    for i in range(len(q)):
-        pred = global_bias + user_bias + item_bias[i] + np.dot(p, q[i])
+def get_predictions(p, Q, user_bias, item_bias, global_bias):
+    pred_ratings = np.zeros(len(Q))
+    for i in range(len(Q)):
+        pred = global_bias + user_bias + item_bias[i] + np.dot(p, Q[i])
         pred_ratings[i] = pred
     return pred_ratings
 
 
-def partial_fit(new_user_ratings, q, item_bias, global_bias):
+def partial_fit(new_user_ratings, Q, item_bias, global_bias):
 
     # create array of indices of books this user has actually rated
     indices = []
@@ -68,7 +68,7 @@ def partial_fit(new_user_ratings, q, item_bias, global_bias):
     iterations = 5
 
     # dimensions
-    n_factors = q.shape[1]
+    n_factors = Q.shape[1]
 
     # init components
     mu, sigma = 0, 0.1
@@ -79,19 +79,19 @@ def partial_fit(new_user_ratings, q, item_bias, global_bias):
     for iteration in range(iterations):
         for i in indices:
             rating = new_user_ratings[i]
-            pred = global_bias + new_user_bias + item_bias[i] + np.dot(p, q[i])
+            pred = global_bias + new_user_bias + item_bias[i] + np.dot(p, Q[i])
             error = rating - pred
 
             # update P
             for f in range(n_factors):
-                p_update = learning_rate * (error * q[i][f] - P_reg * p[f])
+                p_update = learning_rate * (error * Q[i][f] - P_reg * p[f])
                 p[f] += p_update
 
             # update user bias
             ub_update = learning_rate * (error - user_bias_reg * new_user_bias)
             new_user_bias += ub_update
 
-    return get_predictions(p, q, new_user_bias, item_bias, global_bias)
+    return get_predictions(p, Q, new_user_bias, item_bias, global_bias)
 
 
 def log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature, num_results):
