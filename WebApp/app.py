@@ -1,12 +1,14 @@
 from flask import Flask, request, render_template, redirect, url_for
 import numpy as np
 import pandas as pd
+import scipy
 import logging
 import pickle
 import csv
 
 # Custom libraries
-from util import get_user_vector, chunker, get_top_n_recs, map_user, most_popular, get_books_from_indices, not_found_error_message
+from util import get_user_vector, chunker, not_found_error_message
+from recommendations import map_user_to_features, most_popular, get_books_from_indices, partial_fit, log_rank
 
 app = Flask(__name__)
 
@@ -16,8 +18,9 @@ app = Flask(__name__)
 bookid_to_title = None
 title_to_bookid = None
 mapper_id = None
-item_matrix = None
-qi = None  # item to concept matrix from SVD
+feature_matrix = None
+Q = None  # item to concept matrix from SVD
+item_bias = None
 top_recs_each_book_item_matrix = None
 top_recs_each_book_feature_matrix = None
 books = None
@@ -50,8 +53,10 @@ def load_title_mappers():
         with open(filename, "r", encoding='utf8') as f:
             reader = csv.reader(f, delimiter=",")
             for i, line in enumerate(reader):
-                bookid_to_title[line[0]] = line[10]
-                title_to_bookid[line[10]] = line[0]
+                bookid = line[0]
+                title = line[10].strip()
+                bookid_to_title[bookid] = title
+                title_to_bookid[title] = bookid
         print('books mapper loaded')
 
 
@@ -71,12 +76,12 @@ def load_id_mapper():
         print('mapper_id loaded')
 
 
-def load_item_matrix():
-    """ Loads in the item to concept matrix """
-    global item_matrix
-    if item_matrix is None:
-        item_matrix = np.load('static/data/item_matrix.npy')
-        print('item matrix loaded')
+def load_feature_matrix():
+    """ Loads in the item to feature matrix """
+    global feature_matrix
+    if feature_matrix is None:
+        feature_matrix = scipy.sparse.load_npz('static/data/feature_matrix.npz')
+        print('feature matrix loaded')
 
 
 def load_top_recs_each_book():
@@ -92,20 +97,28 @@ def load_top_recs_each_book():
         print('top recs for each book loaded')
 
 
-def load_svd_matrix():
-    global qi
-    if qi is None:
-        qi = np.load('static/data/svd.npy')
-        print('svd matrix loaded')
+def load_Q_matrix():
+    global Q
+    if Q is None:
+        Q = np.load('static/data/Q.npy')
+        print('Trained Q matrix loaded')
+
+
+def load_item_bias():
+    global item_bias
+    if item_bias is None:
+        item_bias = np.load('static/data/item_bias.npy')
+        print('Trained item_bias vector loaded')
 
 
 def load_data():
     global titles
     load_title_mappers()
     load_id_mapper()
-    load_svd_matrix()
+    load_Q_matrix()
+    load_item_bias()
     load_books()
-    load_item_matrix()
+    load_feature_matrix()
     load_top_recs_each_book()
     return render_template('book_list.html', titles=titles)
 
@@ -189,18 +202,20 @@ def recommender_post():
     if 'user_recs' in request.form:
         text = request.form['text']
 
-        q, error_message = get_user_vector(text, mapper_id)
+        user_ratings, error_message = get_user_vector(text, mapper_id)
         if error_message:
             return render_template('book_list.html',
                                    response=error_message,
                                    titles=titles)
 
-        # Get recs using item_matrix
-        top_books = get_top_n_recs(map_user(q, item_matrix), books, 99, q)
-        chunks = chunker(top_books)
 
-        # Get recs using svd
-        # top_books = get_top_n_recs(map_user(q, qi), books, 99, q)
+        # Combine partial fit results with content based recs
+        global_bias = 3.919866 # TODO: move hard coded values either to config file, or load in from disk file
+        predictions_partial_fit = partial_fit(user_ratings, Q, item_bias, global_bias)
+        predictions_features = map_user_to_features(user_ratings, feature_matrix)
+        top_books = log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature=0.5, num_results=99)
+
+        chunks = chunker(top_books)
 
         return render_template('book_list.html',
                                toPass=chunks,
