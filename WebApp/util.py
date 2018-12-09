@@ -2,6 +2,8 @@ import requests
 from xml.etree import ElementTree
 import os
 import sys
+import random
+import math
 import numpy as np
 import pandas as pd
 import scipy
@@ -86,7 +88,8 @@ def get_user_vector(user_input, mapper):
         if total_valid_reviews < 1:
             return None, no_ratings_error_message
 
-        q = feature_scaling(q)
+        # TODO: turn off if using partial fit
+        # q = feature_scaling(q)
 
         # Disable this until we find a 'smart' caching solution
         # print('saving user_vector...')
@@ -111,11 +114,6 @@ def feature_scaling(q):
     return q
 
 
-'''
-Recommender functions
-'''
-
-
 def chunker(top_books):
     # chunk into groups of 3 to display better in web app
     chunks = []
@@ -129,62 +127,3 @@ def chunker(top_books):
 
     chunks.append(current_chunk)
     return chunks
-
-
-def get_books_from_indices(top_book_indices, books):
-    top_books = []
-    for i in range(len(top_book_indices)):
-        book_id = top_book_indices[i]
-        book = books.iloc[book_id - 1]  # index is book_id - 1
-        book['rank'] = i + 1
-
-        # for some reason, some of the text fields have newlines appended to them
-        book['title'] = book['title'].strip()
-        book['author'] = book['author'].strip()
-        top_books.append(book)
-    return top_books
-
-
-def get_top_n_recs(result, books, n, q):
-    recs = []
-    for i in range(len(result)):
-        if q[i] == 0:  # book user hasn't already rated
-            recs.append((i, result[i]))
-        else:
-            recs.append((i, float('-inf')))
-    recs = sorted(recs, key=lambda tup: tup[1], reverse=True)
-
-    top_books = []
-    for i in range(n):
-        book_id = recs[i][0]
-        book = books.iloc[book_id]
-        book['rank'] = i + 1
-
-        # for some reason, some of the text fields have newlines appended to them
-        book['title'] = book['title'].strip()
-        book['author'] = book['author'].strip()
-        top_books.append(book)
-
-    return top_books
-
-
-def most_popular(books, n):
-    top_books = []
-    for i in range(n):
-        book = books.iloc[i]
-        book['rank'] = i + 1
-
-        # for some reason, some of the text fields have newlines appended to them
-        book['title'] = book['title'].strip()
-        book['author'] = book['author'].strip()
-        top_books.append(book)
-
-    return top_books
-
-
-def map_user(q, V):
-    # map new user to concept space by q*V
-    user_to_concept = np.matmul(q, V)
-    # map user back to itme space with user_to_concept * VT
-    result = np.matmul(user_to_concept, V.T)
-    return result
