@@ -20,33 +20,9 @@ def get_books_from_indices(top_book_indices, books):
     return top_books
 
 
-def get_top_n_recs(result, books, n, q):
-    recs = []
-    for i in range(len(result)):
-        if q[i] == 0:  # book user hasn't already rated
-            recs.append((i, result[i]))
-        else:
-            recs.append((i, float('-inf')))
-    recs = sorted(recs, key=lambda tup: tup[1], reverse=True)
-    print("finished sorting recs")
-
+def most_popular(books, num_results):
     top_books = []
-    for i in range(n):
-        book_id = recs[i][0]
-        book = books.iloc[book_id]
-        book['rank'] = i + 1
-
-        # for some reason, some of the text fields have newlines appended to them
-        book['title'] = book['title'].strip()
-        book['author'] = book['author'].strip()
-        top_books.append(book)
-
-    return top_books
-
-
-def most_popular(books, n):
-    top_books = []
-    for i in range(n):
+    for i in range(num_results):
         book = books.iloc[i]
         book['rank'] = i + 1
 
@@ -58,13 +34,6 @@ def most_popular(books, n):
     return top_books
 
 
-def map_user(q, V):
-    # map new user to concept space by q*V
-    user_to_concept = np.matmul(q, V)
-    # map user back to itme space with user_to_concept * VT
-    result = np.matmul(user_to_concept, V.T)
-    return result
-
 def map_user_to_features(p, features):
     p_sparse = scipy.sparse.csr_matrix(p)
     # map new user to concept space by p*features
@@ -73,12 +42,14 @@ def map_user_to_features(p, features):
     result = user_to_concept.dot(features.T).todense()
     return result.T
 
+
 def get_predictions(p, q, user_bias, item_bias, global_bias):
     pred_ratings = np.zeros(len(q))
     for i in range(len(q)):
         pred = global_bias + user_bias + item_bias[i] + np.dot(p, q[i])
         pred_ratings[i] = pred
     return pred_ratings
+
 
 def partial_fit(new_user_ratings, q, item_bias, global_bias):
 
@@ -96,18 +67,15 @@ def partial_fit(new_user_ratings, q, item_bias, global_bias):
     # 5 updates per rated book
     iterations = 5
 
+    # dimensions
     n_factors = q.shape[1]
-    cols = q.shape[0]
-    print("n_factors: {}".format(n_factors))
 
-    # 1. set the user_bias for this user
-    new_user_bias = 0
-
-    # 2. set up new random P
+    # init components
     mu, sigma = 0, 0.1
     p = np.random.normal(mu, (sigma / n_factors), n_factors)
+    new_user_bias = 0
 
-    # 3. computer small number of iterations of SGD
+    # Compute gradient descent
     for iteration in range(iterations):
         for i in indices:
             rating = new_user_ratings[i]
@@ -125,7 +93,8 @@ def partial_fit(new_user_ratings, q, item_bias, global_bias):
 
     return get_predictions(p, q, new_user_bias, item_bias, global_bias)
 
-def log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature, num_books):
+
+def log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature, num_results):
 
     # create tuple of book_id and rating for each method, then sort
     partial_fit_ratings = []
@@ -156,7 +125,7 @@ def log_rank(predictions_partial_fit, predictions_features, user_ratings, books,
     print("Number of non-rated books: {}".format(len(rankings)))
 
     top_books = []
-    for i in range(num_books):
+    for i in range(num_results):
         book_id = rankings[i][1]
         book = books.iloc[book_id] # index is book_id - 1
         book['rank'] = i + 1

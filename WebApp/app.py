@@ -8,7 +8,7 @@ import csv
 
 # Custom libraries
 from util import get_user_vector, chunker, not_found_error_message
-from recommendations import get_top_n_recs, map_user, map_user_to_features, most_popular, get_books_from_indices, partial_fit, log_rank
+from recommendations import map_user_to_features, most_popular, get_books_from_indices, partial_fit, log_rank
 
 app = Flask(__name__)
 
@@ -210,10 +210,10 @@ def recommender_post():
 
 
         # Combine partial fit results with content based recs
-        global_bias = 3.919866
+        global_bias = 3.919866 # TODO: move hard coded values either to config file, or load in from disk file
         predictions_partial_fit = partial_fit(user_ratings, Q, item_bias, global_bias)
         predictions_features = map_user_to_features(user_ratings, feature_matrix)
-        top_books = log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature=0.5, num_books=99)
+        top_books = log_rank(predictions_partial_fit, predictions_features, user_ratings, books, weight_feature=0.5, num_results=99)
 
         chunks = chunker(top_books)
 
